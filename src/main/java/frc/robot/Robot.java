@@ -76,10 +76,11 @@ public class Robot extends TimedRobot {
 
     /*
      * ################################################################################
-     * #                    Implement Motor here                                      #
+     * Exercise: 
+     *  1. Initialize a motor (Motor Type: TBD, ID: TBD)
+     *  2. Let the motor run at 50%
      * ################################################################################
      */
-
     @Override
     public void teleopInit() {
     }
