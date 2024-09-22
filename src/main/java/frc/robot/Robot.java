@@ -94,46 +94,16 @@ public class Robot extends TimedRobot {
      * #############################################################################
      */
 
-    static final int id = -1;
-    FridolinsMotor motor;
-    static final double ticksPerRotation = 4096.0;
-    static final double speed = 0.3;
-
     /** This function is called once teleop is enabled */
     @Override
     public void teleopInit() {
-        // Type Falcon500 with old firmware
-        motor = new FridoFalcon500(id);
 
-        // Type Falcon500 with new Phoneix v6 firmware
-        motor = new FridoFalcon500v6(id);
-
-        // Type CAN Spark Max
-        motor = new FridoCanSparkMax(id, MotorType.kBrushless);
-
-        // TalonSRX
-        motor = new FridoTalonSRX(id);
-
-        ////////////////////////////////////////////////////////////////////////////
-
-        // Use the internal encoder of the motor.
-        motor.configEncoder(FridoFeedBackDevice.kBuildin);
-
-        // reset encoder
-        motor.setEncoderPosition(0);
     }
 
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        double encoderTicks = motor.getEncoderTicks();
-        double rotations = encoderTicks / ticksPerRotation;
 
-        if (rotations < 3.0) {
-            motor.set(0.3);
-        } else {
-            motor.stopMotor();
-        }
     }
 
     @Override
