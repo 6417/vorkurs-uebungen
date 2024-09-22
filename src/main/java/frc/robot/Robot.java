@@ -9,6 +9,8 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.fridowpi.joystick.WPIJoystick;
+import frc.fridowpi.joystick.joysticks.LogitechExtreme;
 import frc.fridowpi.motors.FridoCanSparkMax;
 import frc.fridowpi.motors.FridoFalcon500;
 import frc.fridowpi.motors.FridoFalcon500v6;
@@ -32,9 +34,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        // Instantiate our RobotContainer. This will perform all our button bindings,
-        // and put our
-        // autonomous chooser on the dashboard.
     }
 
     /**
@@ -81,16 +80,41 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() {
     }
 
+    /*
+     * #############################################################################
+     * Exercise:
+     * The exercise class has a method `get_joystick_output` that returns the 
+     * Y position of the joystick. Use it to control the motor. 
+     * #############################################################################
+     */
+    static final int id = -1;
+    FridolinsMotor motor;
+
+    ExerciseSetup exercise = new ExerciseSetup(-1, WPIJoystick::new);
+
     /** This function is called once teleop is enabled */
     @Override
     public void teleopInit() {
+        // Type Falcon500 with old firmware
+        motor = new FridoFalcon500(id);
 
+        // Type Falcon500 with new Phoneix v6 firmware
+        motor = new FridoFalcon500v6(id);
+
+        // Type CAN Spark Max
+        motor = new FridoCanSparkMax(id, MotorType.kBrushless);
+
+        // TalonSRX
+        motor = new FridoTalonSRX(id);
+
+        // General setup of joystick, we don't worry about that yet.
+        exercise.init();
     }
 
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-
+        motor.set(exercise.get_joystick_output()); 
     }
 
     @Override
