@@ -81,36 +81,16 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() {
     }
 
-    /*
-     * ################################################################################
-     * Exercise: 
-     *  1. Initialize a motor (Motor Type: TBD, ID: TBD)
-     *  2. Let the motor run at 50%
-     * ################################################################################
-     */
-    static final int id = -1;
-    FridolinsMotor motor;
-
+    /** This function is called once teleop is enabled */
     @Override
     public void teleopInit() {
 
-        // Type Falcon500 with old firmware
-        motor = new FridoFalcon500(id);
-        
-        // Type Falcon500 with new Phoneix v6 firmware
-        motor = new FridoFalcon500v6(id);
-
-        // Type CAN Spark Max
-        motor = new FridoCanSparkMax(id, MotorType.kBrushless);
-
-        // TalonSRX
-        motor = new FridoTalonSRX(id);
     }
 
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        motor.set(0.5);
+
     }
 
     @Override
