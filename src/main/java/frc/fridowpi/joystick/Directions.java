@@ -1,4 +1,4 @@
-package frc.fridolib;
+package frc.fridowpi.joystick;
 
 public class Directions {
     // public enum RawDirection {

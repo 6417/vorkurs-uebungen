@@ -2,7 +2,7 @@ package frc.fridowpi.joystick.joysticks;
 
 import java.util.Optional;
 
-import frc.fridolib.Directions.Pov;
+import frc.fridowpi.joystick.Directions.Pov;
 import frc.fridowpi.joystick.IJoystickButtonId;
 
 public enum POV implements IJoystickButtonId {
