@@ -23,8 +23,8 @@ import frc.fridowpi.motors.utils.PidValues;
 public class FridoCanSparkMax extends CANSparkMax implements FridolinsMotor {
     public static List<FridoCanSparkMax> allMotorsWithShitySoftware = new ArrayList<>();
 
-	private PIDController pid;
-	private SimpleMotorFeedforward ff;
+    private PIDController pid;
+    private SimpleMotorFeedforward ff;
     private IModule moduleProxy = new Module();
 
     SparkMaxLimitSwitch forwardLimitSwitch;
@@ -83,7 +83,7 @@ public class FridoCanSparkMax extends CANSparkMax implements FridolinsMotor {
 
     @Override
     public void setVelocity(double velocity) {
-		/* Attention: Uses software PIDs */
+        /* Attention: Uses software PIDs */
 
     }
 
@@ -223,12 +223,12 @@ public class FridoCanSparkMax extends CANSparkMax implements FridolinsMotor {
     }
 
     @Override
-    public void configEncoder(FridoFeedBackDevice device, int countsPerRev) {
+    public void configEncoder(FridoFeedBackDevice device) {
         if (device == FridoFeedBackDevice.kBuildin) {
             this.relativeEncoder = super.getEncoder();
         } else {
-            this.relativeEncoder = super.getEncoder(convertEncoderType(device), countsPerRev);
-            this.relativeEncoder.setPositionConversionFactor(countsPerRev);
+            this.relativeEncoder = super.getEncoder(convertEncoderType(device), 1);
+            this.relativeEncoder.setPositionConversionFactor(1);
         }
     }
 
@@ -248,12 +248,15 @@ public class FridoCanSparkMax extends CANSparkMax implements FridolinsMotor {
     }
 
     private void setMotionMagicParametersIfNecessary(PidValues pidValues) {
-//        if (pidValues.cruiseVelocity.isPresent() || pidValues.acceleration.isPresent())
-//            assert pidValues.slotIdX.isPresent() : "To set cruiseVelocity or acceleration slotIdx needs to be set";
+        // if (pidValues.cruiseVelocity.isPresent() ||
+        // pidValues.acceleration.isPresent())
+        // assert pidValues.slotIdX.isPresent() : "To set cruiseVelocity or acceleration
+        // slotIdx needs to be set";
         pidValues.cruiseVelocity.ifPresent((cruiseVelocity) -> this.pidController
                 .setSmartMotionMaxVelocity(cruiseVelocity, pidValues.slotIdX.orElse(selectedPIDSlotIdx.orElse(0))));
         pidValues.acceleration.ifPresent(
-                (acceleration) -> this.pidController.setSmartMotionMaxAccel(acceleration, pidValues.slotIdX.orElse(selectedPIDSlotIdx.orElse(0))));
+                (acceleration) -> this.pidController.setSmartMotionMaxAccel(acceleration,
+                        pidValues.slotIdX.orElse(selectedPIDSlotIdx.orElse(0))));
     }
 
     private Optional<Double> tolerance = Optional.empty();
@@ -267,25 +270,25 @@ public class FridoCanSparkMax extends CANSparkMax implements FridolinsMotor {
         setMotionMagicParametersIfNecessary(pidValues);
     }
 
-	@Override
-	public void setPID(PidValues pidValues, FeedForwardValues ffValues) {
-		pid.setPID(pidValues.kP, pidValues.kI, pidValues.kD);
-		ff = new SimpleMotorFeedforward(ffValues.kS, ffValues.kV, ffValues.kA);
+    @Override
+    public void setPID(PidValues pidValues, FeedForwardValues ffValues) {
+        pid.setPID(pidValues.kP, pidValues.kI, pidValues.kD);
+        ff = new SimpleMotorFeedforward(ffValues.kS, ffValues.kV, ffValues.kA);
         tolerance = pidValues.tolerance;
-	}
+    }
 
-	@Override
-	public void runPid() {
-		var pidOut = pid.calculate(getEncoderVelocity(), setPoint);
-		var ffOut = ff.calculate(setPoint);
-		super.setVoltage(pidOut + ffOut);
-	}
+    @Override
+    public void runPid() {
+        var pidOut = pid.calculate(getEncoderVelocity(), setPoint);
+        var ffOut = ff.calculate(setPoint);
+        super.setVoltage(pidOut + ffOut);
+    }
 
     @Override
     public boolean pidAtTarget() {
-            if (pidControlType == null) {
-                return true;
-            }
+        if (pidControlType == null) {
+            return true;
+        }
 
         switch (pidControlType) {
             case kDutyCycle:
@@ -357,9 +360,9 @@ public class FridoCanSparkMax extends CANSparkMax implements FridolinsMotor {
         return initialized;
     }
 
-	@Override
-	public void setAccelerationLimit(double maxAcceleration) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'setAccelerationLimit'");
-	}
+    @Override
+    public void setAccelerationLimit(double maxAcceleration) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setAccelerationLimit'");
+    }
 }

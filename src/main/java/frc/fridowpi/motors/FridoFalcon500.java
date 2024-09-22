@@ -40,7 +40,7 @@ public class FridoFalcon500 extends TalonFX implements FridolinsMotor {
 	}
 
 	@Override
-	public void configEncoder(FridoFeedBackDevice device, int countsPerRev) {
+	public void configEncoder(FridoFeedBackDevice device) {
 		super.configSelectedFeedbackSensor(convertFromTalonFXFeedbackDevice(device));
 	}
 

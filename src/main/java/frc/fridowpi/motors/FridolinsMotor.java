@@ -68,7 +68,13 @@ public interface FridolinsMotor extends MotorController, IModule {
         kRelative, kAlternative, kBuildin, kAbsolute
     }
 
-    public void configEncoder(FridoFeedBackDevice device, int countsPerRev);
+    public void configEncoder(FridoFeedBackDevice device);
+    
+    @Deprecated
+    public default void configEncoder(FridoFeedBackDevice device, int countsPerRev)
+    {
+        configEncoder(device);
+    }
 
 	public void setAccelerationLimit(double maxAcceleration);
 

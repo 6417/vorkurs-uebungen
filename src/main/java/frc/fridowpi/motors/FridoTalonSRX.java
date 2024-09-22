@@ -162,7 +162,7 @@ public class FridoTalonSRX extends WPI_TalonSRX implements FridolinsMotor {
     }
 
     @Override
-    public void configEncoder(FridoFeedBackDevice device, int countsPerRev) {
+    public void configEncoder(FridoFeedBackDevice device) {
         super.configSelectedFeedbackSensor(convertFromFridoFeedbackDevice(device));
     }
 
