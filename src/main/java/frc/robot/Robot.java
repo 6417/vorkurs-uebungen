@@ -114,7 +114,7 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        motor.set(exercise.get_joystick_output()); 
+
     }
 
     @Override
