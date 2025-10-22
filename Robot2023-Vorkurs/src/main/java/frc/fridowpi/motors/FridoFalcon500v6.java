@@ -1,8 +1,5 @@
 package frc.fridowpi.motors;
 
-import static edu.wpi.first.units.Units.RotationsPerSecond;
-
-import java.util.Collection;
 import java.util.Optional;
 
 import com.ctre.phoenix6.configs.FeedbackConfigs;
@@ -12,7 +9,6 @@ import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
@@ -23,7 +19,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.ReverseLimitTypeValue;
 import com.ctre.phoenix6.signals.ReverseLimitValue;
 
-import edu.wpi.first.units.Measure;
 import frc.fridowpi.motors.utils.FeedForwardValues;
 import frc.fridowpi.motors.utils.PidValues;
 

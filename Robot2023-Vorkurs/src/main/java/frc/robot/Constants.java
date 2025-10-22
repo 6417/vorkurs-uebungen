@@ -17,22 +17,10 @@ public final class Constants {
     public static final double driveSpeed = 0.8;
 
     public static class Motors {
-        public static final int BACKLEFT = 13;
-        public static final int BACKRIGHT = 12;
-        public static final int FRONTLEFT = 11;
-        public static final int FRONTRIGHT = 10;
-    }
-
-    public static final class Odometry {
-        public static final double wheelPerimeter = 0.47;
-        // The transmission denotes how many revolution the motor makes compared to the
-        // wheel
-        public static final double transmission = 10.71;
-        public static final int encoderResolution = 2048;
-
-        public static final double encoderToMetersConversion = 1
-                / ((1 / wheelPerimeter) * transmission * encoderResolution);
-        public static final double trackWidthMeters = 0.5;
+      public static final int BACKLEFT = 13;
+      public static final int BACKRIGHT = 12;
+      public static final int FRONTLEFT = 11;
+      public static final int FRONTRIGHT = 10;
     }
   }
 }

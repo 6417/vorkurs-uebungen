@@ -7,34 +7,33 @@ package frc.robot.subsystems.drive;
 
 import frc.robot.Constants;
 
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.controls.Follower;
-
+import frc.fridowpi.motors.FridoFalcon500v6;
+import frc.fridowpi.motors.FridolinsMotor.DirectionType;
+import frc.fridowpi.motors.FridolinsMotor.IdleMode;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drive extends SubsystemBase {
     private DifferentialDrive tankDrive;
 
-    private TalonFX masterRight;
-    private TalonFX masterLeft;
-    private TalonFX followerRight;
-    private TalonFX followerLeft;
+    private FridoFalcon500v6 masterRight;
+    private FridoFalcon500v6 masterLeft;
+    private FridoFalcon500v6 followerRight;
+    private FridoFalcon500v6 followerLeft;
 
     public Drive() {
-        masterRight = new TalonFX(Constants.Drive.Motors.FRONTRIGHT);
-        masterLeft = new TalonFX(Constants.Drive.Motors.FRONTLEFT);
-        followerRight = new TalonFX(Constants.Drive.Motors.BACKRIGHT);
-        followerLeft = new TalonFX(Constants.Drive.Motors.BACKLEFT);
+        masterRight = new FridoFalcon500v6(Constants.Drive.Motors.FRONTRIGHT);
+        masterLeft = new FridoFalcon500v6(Constants.Drive.Motors.FRONTLEFT);
+        followerRight = new FridoFalcon500v6(Constants.Drive.Motors.BACKRIGHT);
+        followerLeft = new FridoFalcon500v6(Constants.Drive.Motors.BACKLEFT);
 
-        masterRight.setNeutralMode(NeutralModeValue.Brake);
-        masterLeft.setNeutralMode(NeutralModeValue.Brake);
-        followerRight.setNeutralMode(NeutralModeValue.Brake);
-        followerLeft.setNeutralMode(NeutralModeValue.Brake);
-        
-        followerRight.setControl(new Follower(Constants.Drive.Motors.FRONTRIGHT, false));
-        followerLeft.setControl(new Follower(Constants.Drive.Motors.FRONTLEFT, false));
+        masterRight.setIdleMode(IdleMode.kBrake);
+        masterLeft.setIdleMode(IdleMode.kBrake);
+        followerRight.setIdleMode(IdleMode.kBrake);
+        followerLeft.setIdleMode(IdleMode.kBrake);
+       
+        followerRight.follow(masterRight, DirectionType.followMaster);
+        followerLeft.follow(masterLeft, DirectionType.followMaster);
 
         tankDrive = new DifferentialDrive(masterLeft::set, masterRight::set);
         tankDrive.setDeadband(0.0);

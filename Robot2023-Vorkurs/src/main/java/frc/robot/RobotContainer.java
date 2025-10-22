@@ -14,10 +14,5 @@ public class RobotContainer {
   public RobotContainer() {
     driveTrain = new Drive();
     joystick = new Joystick(0);
-
-    configureBindings();
-  }
-
-  private void configureBindings() {
   }
 }
