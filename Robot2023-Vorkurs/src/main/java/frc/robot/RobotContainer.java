@@ -5,18 +5,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.subsystems.drive.Drive;
 
 public class RobotContainer {
   public Joystick joystick;
-  /*
-   * TODO: Add Drivesubsystem
-   */
+  public Drive driveSubsystem;
 
   public RobotContainer() {
-    /*
-    * TODO: Add Drivesubsystem
-    */
-    joystick = new Joystick(0);
+    driveSubsystem = new Drive();
+    joystick = new Joystick(Constants.Joystick.ID);
   }
 }

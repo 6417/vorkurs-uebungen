@@ -20,6 +20,16 @@ public final class Constants {
       /*
        * TODO: ADD Motors ids
        */
+      public static final int FRONTRIGHT = 10;
+      public static final int FRONTLEFT = 12;
+      public static final int BACKRIGHT = 11;
+      public static final int BACKLEFT = 13;
     }
+  }
+
+  public static class Joystick {
+    public static int ID = 0;
+  
+    
   }
 }

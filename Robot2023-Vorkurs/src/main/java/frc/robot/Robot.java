@@ -19,6 +19,7 @@ public class Robot extends TimedRobot {
   /*
    * TODO: Add Robotcontainer
    */
+  private RobotContainer robotContainer;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
     /*
      * TODO: Initialize Robotcontainer
      */
+    robotContainer = new RobotContainer();
   }
 
   /**
@@ -71,8 +73,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     /*
-     * TODO: Think, what funktion you wan't to call for the safty of the Roboter
+     * TODO: Think, what function you wan't to call for the safty of the Roboter
      */
+    robotContainer.driveSubsystem.stopMotors();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -84,6 +87,7 @@ public class Robot extends TimedRobot {
     /*
      * TODO: Let the Roboter drive with the Joysticks funktions getX() and getY()
      */
+    robotContainer.driveSubsystem.drive(robotContainer.joystick.getX(), robotContainer.joystick.getY());
   }
 
   @Override
