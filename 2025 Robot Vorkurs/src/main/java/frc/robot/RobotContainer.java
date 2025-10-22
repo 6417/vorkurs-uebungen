@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The subcomponents
   public static final Controls m_controls = new Controls();
+  public static SwerveDrive drive = new SwerveDrive(Constants.SwerveDrive.configs);
   /*
    * TODO: Add the drivesubsystem
    */
