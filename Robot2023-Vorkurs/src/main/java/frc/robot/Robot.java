@@ -16,7 +16,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
-  private final RobotContainer robotContainer;
+  /*
+   * TODO: Add Robotcontainer
+   */
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -25,7 +27,10 @@ public class Robot extends TimedRobot {
   public Robot() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    robotContainer = new RobotContainer();
+
+    /*
+     * TODO: Initialize Robotcontainer
+     */
   }
 
   /**
@@ -65,20 +70,20 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
+    /*
+     * TODO: Think, what funktion you wan't to call for the safty of the Roboter
+     */
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    robotContainer.driveTrain.stopMotors();
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-    robotContainer.driveTrain.drive(robotContainer.joystick.getX(), robotContainer.joystick.getY());
+  public void teleopPeriodic() { 
+    /*
+     * TODO: Let the Roboter drive with the Joysticks funktions getX() and getY()
+     */
   }
 
   @Override

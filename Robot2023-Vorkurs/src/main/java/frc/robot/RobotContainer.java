@@ -8,11 +8,15 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.subsystems.drive.Drive;
 
 public class RobotContainer {
-  public Drive driveTrain;
   public Joystick joystick;
+  /*
+   * TODO: Add Drivesubsystem
+   */
 
   public RobotContainer() {
-    driveTrain = new Drive();
+    /*
+    * TODO: Add Drivesubsystem
+    */
     joystick = new Joystick(0);
   }
 }
