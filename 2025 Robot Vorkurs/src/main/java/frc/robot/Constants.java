@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.Sendable;
@@ -233,10 +232,10 @@ public final class Constants {
             defaultModuleConfig2024.encoderThicksToRotationNEO = 1;
             defaultModuleConfig2024.encoderVelocityToRPSNEO = 1;
 
-            final int LOC_FL = frc.robot.swerve.SwerveDrive.LOC_FL;
-            final int LOC_FR = frc.robot.swerve.SwerveDrive.LOC_FR;
-            final int LOC_RL = frc.robot.swerve.SwerveDrive.LOC_RL;
-            final int LOC_RR = frc.robot.swerve.SwerveDrive.LOC_RR;
+            final int LOC_FL = frc.robot.subsystems.SwerveDrive.LOC_FL;
+            final int LOC_FR = frc.robot.subsystems.SwerveDrive.LOC_FR;
+            final int LOC_RL = frc.robot.subsystems.SwerveDrive.LOC_RL;
+            final int LOC_RR = frc.robot.subsystems.SwerveDrive.LOC_RR;
 
             configs[LOC_FL] = defaultModuleConfig2024.clone();
             configs[LOC_FR] = defaultModuleConfig2024.clone();

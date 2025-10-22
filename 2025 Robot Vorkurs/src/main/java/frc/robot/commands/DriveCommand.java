@@ -1,11 +1,11 @@
-package frc.robot.swerve;
+package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.fridowpi.utils.Vector2;
 import frc.robot.RobotContainer;
-import frc.robot.Controls.DriveSpeed;
+import frc.robot.subsystems.SwerveDrive;
 import frc.robot.Constants;
 import frc.robot.Controls;
 
@@ -23,38 +23,11 @@ public class DriveCommand extends Command {
         
         var rot = -joystick.getRightX();
 
-       /*  if (RobotContainer.controls.controlMode == Controls.ControlMode.SEPARATE_ACCELERATION) {
-            xy = xy.normalized().scaled(joystick.getRawAxis(4));
-        }*/
-
-        // Apply deadband4
+        // Apply deadband
         x = applyDeadband(x, Controls.deadBandTurn);
         y = applyDeadband(y, Controls.deadBandTurn);
         rot = applyDeadband(rot, Controls.deadBandTurn);
         var xy = new Vector2(x, y);
-
-       
-        // Apply slew rate
-        /*
-         * if (Controls.isSlewRateLimited()) {
-         * var xLimited = xLimiter.calculate(abs(xy.x)) * signum(xy.x);
-         * var yLimited = yLimiter.calculate(abs(xy.y)) * signum(xy.y);
-         * // rot = rotLimiter.calculate(abs(rot)) * signum(rot);
-         * if (Double.isNaN(xLimited) || Double.isNaN(yLimited)) {
-         * xLimiter.reset(xy.x);
-         * yLimiter.reset(xy.y);
-         * } else {
-         * xy = new Vector2(xLimited, yLimited);
-         * }
-         * }
-         */
-
-        /*// Convert to velocity
-        if(joystick.rightStick().getAsBoolean()) {
-            RobotContainer.controls.setActiveSpeedFactor(DriveSpeed.SLOW);
-        } else{
-            RobotContainer.controls.setActiveSpeedFactor(DriveSpeed.FAST);
-        }*/
 
         xy.scale(Constants.SwerveDrive.maxSpeed * RobotContainer.m_controls.speedFactors.get(RobotContainer.m_controls.getActiveSpeedFactor()));
         rot *= Constants.SwerveDrive.maxTurnSpeed;

@@ -1,49 +1,24 @@
-package frc.robot.swerve;
+package frc.robot.subsystems;
 
-import static edu.wpi.first.units.Units.Meter;
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.Volt;
-import static edu.wpi.first.units.Units.Volts;
-
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.measure.MutDistance;
-import edu.wpi.first.units.measure.MutLinearVelocity;
-import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.fridowpi.motors.FridolinsMotor.IdleMode;
-import frc.fridowpi.utils.AccelerationLimiter;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
-
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
+import frc.robot.commands.DriveCommand;
+import frc.robot.swerve.ModuleConfig;
+import frc.robot.swerve.SwerveModule;
 
 public class SwerveDrive extends SubsystemBase {
+    // Member variables
     public SwerveModule[] modules;
     private SwerveDriveKinematics kinematics;
     public SwerveDrivePoseEstimator poseEstimator;
-
-    // I made a mistake by a factor of 10 when I considered the force, the
-    // accelration should
-    // be roughly 10 m / s^2 and not 75.
-    private AccelerationLimiter accelLimiter = new AccelerationLimiter(20, 0.267);
 
     ChassisSpeeds lastSpeeds = new ChassisSpeeds();
 
@@ -55,6 +30,7 @@ public class SwerveDrive extends SubsystemBase {
     Thread odometryThread;
 
     public SwerveDrive(ModuleConfig[] configs) {
+        // Initialize all swerve modules
         String[] moduleNames = new String[4];
         moduleNames[LOC_FR] = "Front Right";
         moduleNames[LOC_FL] = "Front Left";
@@ -80,28 +56,11 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setChassisSpeeds(ChassisSpeeds speeds) {
-        // speeds = ChassisSpeeds.discretize(speeds, 0.02); // remove the skew
-
-        /*
-         * long timeNow = System.currentTimeMillis();
-         * if (lastSetpointTime > 0) {
-         * speeds = accelLimiter.constrain(lastMeasuredSpeeds, speeds,
-         * ((double) (timeNow - lastSetpointTime)) / (double) 1000.0);
-         * }
-         */
-
         SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
-
-        // SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates,
-        // Constants.SwerveDrive.maxSpeed);
 
         for (int i = 0; i < 4; i++) {
             modules[i].setDesiredState(moduleStates[i]);
         }
-
-        // lastSpeeds = speeds;
-        // lastSetpointTime = timeNow;
-        // lastMeasuredSpeeds = getChassisSpeeds();
     }
 
     public void voltageDrive(double voltage) {
@@ -146,10 +105,6 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void periodic() {
-    }
-
-    public Pose2d getPose() {
-        return poseEstimator.getEstimatedPosition();
     }
 
     public void stopMotors() {
