@@ -17,9 +17,6 @@ public final class Constants {
     public static final double driveSpeed = 0.8;
 
     public static class Motors {
-      /*
-       * TODO: ADD Motors ids
-       */
       public static final int FRONTRIGHT = 10;
       public static final int FRONTLEFT = 12;
       public static final int BACKRIGHT = 11;
