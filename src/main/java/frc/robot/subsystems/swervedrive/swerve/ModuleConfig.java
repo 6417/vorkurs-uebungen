@@ -1,4 +1,4 @@
-package frc.robot.swerve;
+package frc.robot.subsystems.swervedrive.swerve;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;

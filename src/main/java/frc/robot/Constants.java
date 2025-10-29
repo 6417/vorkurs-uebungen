@@ -16,7 +16,7 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import frc.fridowpi.motors.FridolinsMotor.LimitSwitchPolarity;
 import frc.fridowpi.motors.utils.PidValues;
-import frc.robot.swerve.ModuleConfig;
+import frc.robot.subsystems.swervedrive.swerve.ModuleConfig;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -36,8 +36,12 @@ public final class Constants {
     }
 
     public static final class Coralhandler {
+        public static final int angleMotorId = 40;
         public static final int intakeMotorId = 50;
-        public static final double speedIntake = 0.2;
+        public static final double speedIntake = -0.2;
+        public static final double speedOutput = 0.2;
+        public static final double angle = 20;
+        public static final double speedAngle = 0.1;
     
         
     }
@@ -76,10 +80,10 @@ public final class Constants {
             defaultModuleConfig2024.encoderThicksToRotationNEO = 1;
             defaultModuleConfig2024.encoderVelocityToRPSNEO = 1;
 
-            final int LOC_FL = frc.robot.subsystems.SwerveDrive.LOC_FL;
-            final int LOC_FR = frc.robot.subsystems.SwerveDrive.LOC_FR;
-            final int LOC_RL = frc.robot.subsystems.SwerveDrive.LOC_RL;
-            final int LOC_RR = frc.robot.subsystems.SwerveDrive.LOC_RR;
+            final int LOC_FL = frc.robot.subsystems.swervedrive.SwerveDrive.LOC_FL;
+            final int LOC_FR = frc.robot.subsystems.swervedrive.SwerveDrive.LOC_FR;
+            final int LOC_RL = frc.robot.subsystems.swervedrive.SwerveDrive.LOC_RL;
+            final int LOC_RR = frc.robot.subsystems.swervedrive.SwerveDrive.LOC_RR;
 
             configs[LOC_FL] = defaultModuleConfig2024.clone();
             configs[LOC_FR] = defaultModuleConfig2024.clone();

@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.swervedrive;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.fridowpi.motors.FridolinsMotor.IdleMode;
 import frc.robot.commands.DriveCommand;
-import frc.robot.swerve.ModuleConfig;
-import frc.robot.swerve.SwerveModule;
+import frc.robot.subsystems.swervedrive.swerve.ModuleConfig;
+import frc.robot.subsystems.swervedrive.swerve.SwerveModule;
 
 public class SwerveDrive extends SubsystemBase {
     // Member variables
