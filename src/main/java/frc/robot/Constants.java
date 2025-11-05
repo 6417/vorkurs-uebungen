@@ -15,11 +15,12 @@ package frc.robot;
 public final class Constants {
   public final static class Drive {
     public static final double driveSpeed = 0.8;
+    public static final double rotationSpeedlimit = 0.5;
 
     public static class Motors {
       public static final int FRONTRIGHT = 10;
-      public static final int FRONTLEFT = 12;
-      public static final int BACKRIGHT = 11;
+      public static final int FRONTLEFT = 11;
+      public static final int BACKRIGHT = 12;
       public static final int BACKLEFT = 13;
     }
   }
@@ -29,4 +30,9 @@ public final class Constants {
   
     
   }
+  public static final class Arm {
+    public static final int ARMLEFT = 23;
+    public static final int ARMRIGHT = 22;
+  }
+
 }

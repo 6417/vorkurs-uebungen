@@ -27,10 +27,10 @@ public class Drive extends SubsystemBase {
         followerRight = new FridoFalcon500v6(Constants.Drive.Motors.BACKRIGHT);
         followerLeft = new FridoFalcon500v6(Constants.Drive.Motors.BACKLEFT);
 
-        masterRight.setIdleMode(IdleMode.kBrake);
-        masterLeft.setIdleMode(IdleMode.kBrake);
-        followerRight.setIdleMode(IdleMode.kBrake);
-        followerLeft.setIdleMode(IdleMode.kBrake);
+        masterRight.setIdleMode(IdleMode.kCoast);
+        masterLeft.setIdleMode(IdleMode.kCoast);
+        followerRight.setIdleMode(IdleMode.kCoast);
+        followerLeft.setIdleMode(IdleMode.kCoast);
        
         followerRight.follow(masterRight, DirectionType.followMaster);
         followerLeft.follow(masterLeft, DirectionType.followMaster);
