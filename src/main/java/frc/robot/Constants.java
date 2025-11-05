@@ -42,6 +42,11 @@ public final class Constants {
         public static final double speedOutput = 0.2;
         public static final double angle = 20;
         public static final double speedAngle = 0.1;
+        public static final double angleMaxA = 68;
+        public static final double angleMaxB = 10;
+        public static final PidValues pid = new PidValues(0.001, 0, 0); // TODO
+        public static final double keyGearRatio = 50*37/9;
+
     
         
     }

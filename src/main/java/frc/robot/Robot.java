@@ -71,14 +71,14 @@ public class Robot extends TimedRobot {
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
-    RobotContainer.hans.angleMotor(2);
+    RobotContainer.hans.positionMotor(30);
    
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    RobotContainer.hans.intakeMotor();
+    //RobotContainer.hans.intakeMotor();
   }
 
   @Override

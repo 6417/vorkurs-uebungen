@@ -4,6 +4,14 @@
 
 package frc.robot.subsystems;
 
+import java.io.ObjectInputFilter.Config;
+
+import org.ejml.dense.row.decomposition.eig.SwitchingEigenDecomposition_DDRM;
+
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.spark.config.SparkMaxConfig;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.fridowpi.motors.FridoSparkMax;
@@ -18,6 +26,10 @@ public class Coralhandler extends SubsystemBase {
     angleMotor = new FridoSparkMax(Constants.Coralhandler.angleMotorId);
     intakeMotor = new FridoSparkMax(Constants.Coralhandler.intakeMotorId);
     //intakeMotor.enableForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen, true);
+
+    angleMotor.setPID(Constants.Coralhandler.pid);
+
+    resetAngleEncoder();
   }
   public void intakeMotor() {
     intakeMotor.set(Constants.Coralhandler.speedIntake);
@@ -30,26 +42,29 @@ public class Coralhandler extends SubsystemBase {
   public void stopMotor() {
     intakeMotor.stopMotor();
   }
-  
-  
-  public void angleMotor(double relativePosition) {
-    double targetPosition = angleMotor.getEncoderTicks() + relativePosition;
-    if (relativePosition > 0) {
-      while (targetPosition > angleMotor.getEncoderTicks()) {
-        angleMotor.set(Constants.Coralhandler.speedAngle);
-      }
-      angleMotor.stopMotor();
-    }
-    else{
-      while (targetPosition < angleMotor.getEncoderTicks()) {
-        angleMotor.set(-Constants.Coralhandler.speedAngle);
-      }
-      angleMotor.stopMotor();
-    }
-    
+
+public void resetAngleEncoder() {
+  angleMotor.setEncoderPosition(getAbsoluteRotation()*Constants.Coralhandler.keyGearRatio);
+}
+
+public double getAbsoluteRotation() {
+  double encoder = angleMotor.asSparkMax().getAbsoluteEncoder().getPosition();
+  if (encoder > 0.5) {
+    encoder -= 1;
   }
+  return encoder;
+}
 
 
+public void positionMotor(double absoluteTargetPosition) {
+  if (absoluteTargetPosition > Constants.Coralhandler.angleMaxA) {
+    absoluteTargetPosition = Constants.Coralhandler.angleMaxA;
+  }
+  if (absoluteTargetPosition < Constants.Coralhandler.angleMaxB) {
+    absoluteTargetPosition = Constants.Coralhandler.angleMaxB;
+  }
+  angleMotor.setPosition(absoluteTargetPosition);
+}
 
   @Override
   public void periodic() {
