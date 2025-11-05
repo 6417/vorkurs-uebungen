@@ -23,6 +23,11 @@ public final class Constants {
       public static final int motorR_ID = 12; // master
       public static final int motorR2_ID = 13; // follower
   }
+  public static class Shooter {
+    public static final int motorShootL_ID = 12;
+    public static final int motorShootR_ID = -1; //unknown
+    public static final int motorShootFront_ID = 11;
+  }
 
   public static class Controller {
       public static final int inUseJoystick_ID = 0;

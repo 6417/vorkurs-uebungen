@@ -12,6 +12,7 @@ public class Controls implements Sendable {
 
     // Initialize Joysticks
     public Joystick driveJoystick = new Joystick(Constants.Controller.inUseJoystick_ID);
+    public Joystick shootJoystick = new Joystick(Constants.Controller.inUseJoystick_ID);
     
     // Initialize Joystick buttons
 
