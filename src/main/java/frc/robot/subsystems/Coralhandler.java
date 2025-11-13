@@ -4,18 +4,10 @@
 
 package frc.robot.subsystems;
 
-import java.io.ObjectInputFilter.Config;
-
-import org.ejml.dense.row.decomposition.eig.SwitchingEigenDecomposition_DDRM;
-
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.spark.config.SparkMaxConfig;
-
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.fridowpi.motors.FridoSparkMax;
-import frc.fridowpi.motors.FridolinsMotor.LimitSwitchPolarity;
 import frc.robot.Constants;
 
 public class Coralhandler extends SubsystemBase {
@@ -28,23 +20,26 @@ public class Coralhandler extends SubsystemBase {
     //intakeMotor.enableForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen, true);
 
     angleMotor.setPID(Constants.Coralhandler.pid);
+    intakeMotor.setPID(Constants.Coralhandler.pidIntake);
 
     resetAngleEncoder();
+
+    Shuffleboard.getTab("coral").add("handler", this);
   }
   public void intakeMotor() {
-    intakeMotor.set(Constants.Coralhandler.speedIntake);
+    intakeMotor.setVelocity(Constants.Coralhandler.speedIntake);
   }
   
   public void outputMotor() {
-    intakeMotor.set(Constants.Coralhandler.speedOutput);
+    intakeMotor.setVelocity(Constants.Coralhandler.speedOutput);
   }
-  
+
   public void stopMotor() {
     intakeMotor.stopMotor();
   }
 
 public void resetAngleEncoder() {
-  angleMotor.setEncoderPosition(getAbsoluteRotation()*Constants.Coralhandler.keyGearRatio);
+  angleMotor.setEncoderPosition(getAbsoluteRotation() * Constants.Coralhandler.keyGearRatio);
 }
 
 public double getAbsoluteRotation() {
@@ -54,7 +49,6 @@ public double getAbsoluteRotation() {
   }
   return encoder;
 }
-
 
 public void positionMotor(double absoluteTargetPosition) {
   if (absoluteTargetPosition > Constants.Coralhandler.angleMaxA) {
@@ -71,5 +65,12 @@ public void positionMotor(double absoluteTargetPosition) {
     // This method will be called once per scheduler run
   }
 
-  
+
+  @Override
+  public void initSendable(SendableBuilder builder){
+    builder.addDoubleProperty("Encoder Position", () -> getAbsoluteRotation()*Constants.Coralhandler.keyGearRatio, null);
+    builder.addDoubleProperty("Coralhandler Velocity", () -> intakeMotor.get(), null);
+    builder.addDoubleProperty("soll velocity", () -> Constants.Coralhandler.speedIntake, null);
+    // super.initSendable(builder);
+  }
 }

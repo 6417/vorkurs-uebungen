@@ -6,15 +6,8 @@ package frc.robot;
 
 import frc.fridowpi.motors.utils.FeedForwardValues;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.util.sendable.SendableBuilder;
-import frc.fridowpi.motors.FridolinsMotor.LimitSwitchPolarity;
 import frc.fridowpi.motors.utils.PidValues;
 import frc.robot.subsystems.swervedrive.swerve.ModuleConfig;
 
@@ -44,7 +37,8 @@ public final class Constants {
         public static final double speedAngle = 0.1;
         public static final double angleMaxA = 68;
         public static final double angleMaxB = 10;
-        public static final PidValues pid = new PidValues(0.001, 0, 0); // TODO
+        public static final PidValues pid = new PidValues(0.005, 0, 0.005);
+        public static final PidValues pidIntake = new PidValues(0.001, 0, 0, 0); //TODO -> ist momentan zu klein
         public static final double keyGearRatio = 50*37/9;
 
     
