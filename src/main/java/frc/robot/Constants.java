@@ -24,9 +24,10 @@ public final class Constants {
       public static final int motorR2_ID = 13; // follower
   }
   public static class Shooter {
-    public static final int motorShootL_ID = 12;
-    public static final int motorShootR_ID = -1; //unknown
-    public static final int motorShootFront_ID = 11;
+    public static final int motorShootL_ID = 22;
+    public static final int motorShootR_ID = 23;
+    public static final int shooterVelocity = 1000;
+
   }
 
   public static class Controller {

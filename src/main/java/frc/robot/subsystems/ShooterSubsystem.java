@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.fridowpi.motors.FridoSparkMax;
 import frc.fridowpi.motors.FridolinsMotor.DirectionType;
+import frc.fridowpi.motors.FridolinsMotor.IdleMode;
+import frc.fridowpi.motors.utils.PidValues;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.DriveCommand;
@@ -18,9 +20,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // Declare all variables used in the subsystem
 
-    private FridoSparkMax motorShootR;
-    private FridoSparkMax motorShootL;
-    private FridoSparkMax motorShootFront;
+    private FridoSparkMax motorShootMaster;
+    private PidValues shooterVelocityPIDValues;
 
     //private double speed = Constants.Drive.normalSpeed;
 
@@ -31,34 +32,32 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private void configMotors() {
         // Instantiate motors
-        motorShootR = new FridoSparkMax(Constants.Shooter.motorShootR_ID);
-        motorShootL = new FridoSparkMax(Constants.Shooter.motorShootL_ID);
-        motorShootFront = new FridoSparkMax(Constants.Shooter.motorShootFront_ID);
-
-
+        motorShootMaster = new FridoSparkMax(Constants.Shooter.motorShootR_ID);
         // Configure the motors
 
-        motorShootR.follow(motorShootL, DirectionType.followMaster);
+        motorShootMaster.setIdleMode(IdleMode.kCoast);
 
-        motorShootR.setInverted(true);
-        motorShootFront.setInverted(true);
-
+        shooterVelocityPIDValues = new PidValues(0.0001, 0, 0, 0.0002941);
+        motorShootMaster.setPID(shooterVelocityPIDValues);
     }
 
-    public void shootBack(double speed) {
-        motorShootR.set(speed);
-    }
-
-    public void shootFront(double speed) {
-      motorShootFront.set(speed);
+  public void stopMotors() {
+    motorShootMaster.stopMotor();
+  }
+  
+  public void setVelocity() {
+    motorShootMaster.setVelocity(Constants.Shooter.shooterVelocity);
   }
 
     @Override
     public void periodic() {
+        //motorShootMaster.set(0.5);
+        setVelocity();
     }
 
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
+        builder.addDoubleProperty("Motor velocity", ()->motorShootMaster.getEncoderVelocity(), null);
     }
 }
