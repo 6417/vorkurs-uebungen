@@ -26,6 +26,32 @@ public class ExampleSubsystem extends SubsystemBase {
   }
 
   /**
+   * Resets the motor and the sensor
+   */
+  public void reset() {}
+
+  /**
+   * Sets the motor speed
+   * 
+   * @param speed of the motors in [-1,1]
+   */
+  public void setMotorSpeed(double speed) {}
+
+  /**
+   * stops the motor
+   */
+  public void stopMotor() {}
+
+  /**
+   * The sensor important for the motor
+   * 
+   * @return the data from a sensor
+   */
+  public double getSensorData() {
+    return 0.;
+  }
+
+  /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *
    * @return value of some boolean subsystem state, such as a digital sensor.
