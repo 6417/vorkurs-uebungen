@@ -23,4 +23,8 @@ public final class Constants {
 
     public static final double threshold = 10.2;
   }
+
+  public static final class Controls {
+    public static final int xboxID = 0;
+  }
 }
