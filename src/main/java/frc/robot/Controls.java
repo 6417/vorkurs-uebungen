@@ -9,6 +9,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AngleCommand;
 
 /**
  * Holds the data concerning input, which should be available
@@ -30,6 +31,11 @@ public class Controls implements Sendable {
     Trigger windowsButtonDrive = driveJoystick.back();
     Trigger burgerButtonDrive = driveJoystick.start();
     Trigger pov0Drive = driveJoystick.povUp();
+
+    public CommandXboxController angleJoystick = new CommandXboxController(Constants.Joystick.angleJoystickId);
+
+    Trigger xButtonAngle = angleJoystick.x();
+    Trigger yButtonAngle = angleJoystick.y();
 
     public enum DriveSpeed {
         DEFAULT_SPEED,
@@ -82,7 +88,11 @@ public class Controls implements Sendable {
                 () -> {
                     activeSpeedFactor = DriveSpeed.DEFAULT_SPEED;
                 }));
-
+        
+                
+                xButtonAngle.onTrue(new AngleCommand(30)); //TODO: das in Constants tun
+                yButtonAngle.onTrue(new AngleCommand(15));
+        
         Shuffleboard.getTab("Drive").add("Controls", this);
     }
 
@@ -90,5 +100,7 @@ public class Controls implements Sendable {
     public void initSendable(SendableBuilder builder) {
 
     }
+
+    
 
 }

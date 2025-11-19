@@ -26,6 +26,7 @@ import frc.robot.subsystems.swervedrive.swerve.ModuleConfig;
 public final class Constants {
     public static final class Joystick {
         public static final int driveJoystickId = 0;
+        public static final int angleJoystickId = 1;
     }
 
     public static final class Coralhandler {
