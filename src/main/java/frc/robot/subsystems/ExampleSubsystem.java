@@ -8,8 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ExampleSubsystem extends SubsystemBase {
+  double data;
   /** Creates a new ExampleSubsystem. */
-  public ExampleSubsystem() {}
+  public ExampleSubsystem() {
+    data = 0;
+  }
 
   /**
    * Example command factory method.
@@ -28,19 +31,27 @@ public class ExampleSubsystem extends SubsystemBase {
   /**
    * Resets the motor and the sensor
    */
-  public void reset() {}
+  public void reset() {
+    data = 0;
+    System.out.println("Example Subsystem got resetet!");
+  }
 
   /**
    * Sets the motor speed
    * 
    * @param speed of the motors in [-1,1]
    */
-  public void setMotorSpeed(double speed) {}
+  public void setMotorSpeed(double speed) {
+    data += 1.2;
+    System.out.printf("Example Subsystem set Motor speed at %d", speed);
+  }
 
   /**
    * stops the motor
    */
-  public void stopMotor() {}
+  public void stopMotor() {
+    System.out.println("Example Subsystem stopped the motor!");
+  }
 
   /**
    * The sensor important for the motor
@@ -48,7 +59,8 @@ public class ExampleSubsystem extends SubsystemBase {
    * @return the data from a sensor
    */
   public double getSensorData() {
-    return 0.;
+    System.out.println("Example Subsystem is checking de sensor.");
+    return data;
   }
 
   /**
@@ -57,8 +69,9 @@ public class ExampleSubsystem extends SubsystemBase {
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
   public boolean exampleCondition() {
+    System.out.println("Example Subsystem is evaluating a condition.");
     // Query some boolean state, such as a digital sensor.
-    return false;
+    return data > 15.3;
   }
 
   @Override
