@@ -17,6 +17,7 @@ public class CountSubsystem extends SubsystemBase{
     }
 
     public void run() {
+        if (count % 5 == 0)
         System.out.printf("Subsystem %d counts: %d\n", index, ++count);
     }
 
