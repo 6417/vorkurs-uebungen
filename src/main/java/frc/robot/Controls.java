@@ -33,7 +33,7 @@ public class Controls implements Sendable {
                           )));
 
       burgerButton.onTrue(new PrintVorkursCommand(3).alongWith(
-                          new PrintVorkursCommand(1).andThen(
+                          new PrintVorkursCommand(2).andThen(
                             new WaitCommand(1).andThen(
                               new ExampleCommand().alongWith(new PrintVorkursCommand(1))
                             )

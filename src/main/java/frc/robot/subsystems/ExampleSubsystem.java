@@ -43,7 +43,7 @@ public class ExampleSubsystem extends SubsystemBase {
    */
   public void setMotorSpeed(double speed) {
     data += 1.2;
-    System.out.printf("Example Subsystem set Motor speed at %d", speed);
+    System.out.printf("Example Subsystem set Motor speed at %f\n", speed);
   }
 
   /**
