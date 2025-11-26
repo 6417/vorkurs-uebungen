@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.PrintVorkursCommand;
 
 public class Controls implements Sendable {
-    public CommandXboxController joystick;
+    public CommandXboxController joystick = new CommandXboxController(Constants.Controls.xboxID);
 
     private Trigger ybutton = joystick.y();
     private Trigger xbutton = joystick.x();
@@ -18,8 +18,6 @@ public class Controls implements Sendable {
       new CommandXboxController(Constants.OperatorConstants.kDriverControllerPort);
 
     public Controls() {
-        joystick = new CommandXboxController(Constants.Controls.xboxID);
-
         ybutton.onTrue(new PrintVorkursCommand(1));
         xbutton.whileTrue(new PrintVorkursCommand(2));
     }
