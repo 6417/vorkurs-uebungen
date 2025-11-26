@@ -27,6 +27,6 @@ public class CountSubsystem extends SubsystemBase{
     }
 
     public boolean condition() {
-        return count > * 100;
+        return count > index * 100;
     }
 }
