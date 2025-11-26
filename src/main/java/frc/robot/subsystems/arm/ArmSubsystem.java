@@ -16,32 +16,35 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
 
-    private FridoFalcon500v6 armfollower;
-    private FridoFalcon500v6 armmaster;
+    private FridoFalcon500v6 upperArmFollower;
+    private FridoFalcon500v6 upperArmMaster;
     private PidValues pidValues;
+    private FridoFalcon500v6 baseArmFollower;
+    private FridoFalcon500v6 baseArmMaster;
 
     public ArmSubsystem() {
         // Erstelle motoren
-        armfollower = new FridoFalcon500v6(Constants.Arm.ARMLEFT);
-        armmaster = new FridoFalcon500v6(Constants.Arm.ARMRIGHT);
+        upperArmFollower = new FridoFalcon500v6(Constants.Arm.ARMLEFT);
+        upperArmMaster = new FridoFalcon500v6(Constants.Arm.ARMRIGHT);
+        baseArmFollower = new FridoFalcon500v6(20);
+        baseArmMaster = new FridoFalcon500v6(21);
 
         //  Konfiguriere folgen
-        armfollower.follow(armmaster, DirectionType.invertMaster);
-
+        upperArmFollower.follow(upperArmMaster, DirectionType.invertMaster);
+        baseArmFollower.follow(baseArmMaster, DirectionType.followMaster);
         // Konfiguriere PID
         pidValues = new PidValues(Constants.Arm.UPPERARM_KP,Constants.Arm.UPPERARM_KI,Constants.Arm.UPPERARM_KD);
-        armmaster.setPID(pidValues);
+        upperArmMaster.setPID(pidValues);
     }
 
     public void setPosition(double position) {
-        armmaster.setPosition(position);
+        upperArmMaster.setPosition(position);
     }
     
 
     @Override
     public void periodic() {
-        setPosition(3);
-        System.out.println(armmaster.getEncoderTicks());
+        baseArmMaster.set(0.6);
     }
     
 }
