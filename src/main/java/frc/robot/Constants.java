@@ -18,6 +18,9 @@ public final class Constants {
   }
 
   public static class ExampleSubsystem {
+    public static final int[] print0 = {3, 1, 5};
+    public static final int[] print1 = {4, 2, 6};
+
     public static final double speed0 = 0.5;
     public static final double speed1 = 0.2;
 
