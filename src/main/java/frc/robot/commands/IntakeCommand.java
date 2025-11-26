@@ -5,21 +5,19 @@
 package frc.robot.commands;
 
 import frc.robot.RobotContainer;
+import frc.robot.Constants.Coralhandler;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class AngleCommand extends Command {
+public class IntakeCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-
-  double absoluteTargetPosition;
 
   /**
    * Creates a new ExampleCommand.
    *
    */
   //---------konstruktor-------------
-  public AngleCommand(double _absoluteTargetPosition) {
-    absoluteTargetPosition = _absoluteTargetPosition;
+  public IntakeCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.hans);
   }
@@ -29,7 +27,8 @@ public class AngleCommand extends Command {
   // ------start des Befehls (startbedingungen)-------
   @Override
   public void initialize() {
-    RobotContainer.hans.positionMotor(absoluteTargetPosition);
+    RobotContainer.hans.intakeMotor();
+    System.out.println("intake initialized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,14 +41,13 @@ public class AngleCommand extends Command {
   // ----------beendet den command------------
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Angle finished!");
+    //TODO: Hier Motor abschalten
   }
 
   // Returns true when the command should end
   // --------------schaut, ob command beendet ist---------------
   @Override
   public boolean isFinished() {
-    return true;
-    //return RobotContainer.hans.isAtDesiredAngle();
+    return RobotContainer.hans.isLimitSwitchPressed();
   }
 }

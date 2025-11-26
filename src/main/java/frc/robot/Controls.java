@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AngleCommand;
+import frc.robot.commands.IntakeCommand;
 
 /**
  * Holds the data concerning input, which should be available
@@ -36,6 +37,8 @@ public class Controls implements Sendable {
 
     Trigger xButtonAngle = angleJoystick.x();
     Trigger yButtonAngle = angleJoystick.y();
+    Trigger aButtonAngle = angleJoystick.a();
+    Trigger bButtonAngle = angleJoystick.b();
 
     public enum DriveSpeed {
         DEFAULT_SPEED,
@@ -92,6 +95,8 @@ public class Controls implements Sendable {
                 
                 xButtonAngle.onTrue(new AngleCommand(30)); //TODO: das in Constants tun
                 yButtonAngle.onTrue(new AngleCommand(15));
+                aButtonAngle.onTrue(new AngleCommand(30).andThen(new IntakeCommand()));
+
         
         Shuffleboard.getTab("Drive").add("Controls", this);
     }
