@@ -47,12 +47,17 @@ public class ArmSubsystem extends SubsystemBase {
         // Limitswitches
         baseArmMaster.enableForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen,true);
         baseArmMaster.enableReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen,true);
+        baseArmFollower.enableForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen,true);
+        baseArmFollower.enableReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen,true);
     }
 
     public void setPosition(double position) {
         upperArmMaster.setPosition(position);
     }
     
+    public void setSpeedBase(double speed) {
+        baseArmMaster.set(speed);
+    }
 
     @Override
     public void periodic() {

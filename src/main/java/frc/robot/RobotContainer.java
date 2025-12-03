@@ -6,19 +6,29 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.ArmBaseSpeedCommand;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.Drive;
 
 public class RobotContainer {
-  public Joystick joystick;
-  public Drive driveSubsystem;
-  public ArmSubsystem armSubsystem; 
+  public static Joystick joystick = new Joystick(Constants.Joystick.ID);
+  public static Drive driveSubsystem = new Drive();
+  public static ArmSubsystem armSubsystem = new ArmSubsystem(); 
+
+  private JoystickButton armBaseForwardButton = new JoystickButton(joystick, 3);
+  private JoystickButton armBaseReverseButton = new JoystickButton(joystick, 4);
 
   public RobotContainer() {
-    driveSubsystem = new Drive();
-    joystick = new Joystick(Constants.Joystick.ID);
-
-    armSubsystem = new ArmSubsystem();
     Shuffleboard.getTab("Arm").add(armSubsystem);
+
+    configureButtonBinds();
+  }
+
+  private void configureButtonBinds() {
+    armBaseForwardButton.whileTrue(new ArmBaseSpeedCommand(0.1));
+    armBaseReverseButton.whileTrue(new ArmBaseSpeedCommand(-0.1));
   }
 }
