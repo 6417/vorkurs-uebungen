@@ -31,8 +31,12 @@ public final class Constants {
     
   }
   public static final class Arm {
-    public static final int ARMLEFT = 23;
-    public static final int ARMRIGHT = 22;
+    public static final int UPPER_FOLLOWER = 23;
+    public static final int UPPER_MASTER = 22;
+    public static final int BASE_ARM_MASTER = 20;
+    public static final int BASE_ARM_FOLLOWER = 21;
+
+
     public static final double UPPERARM_KP = 1.3;
     public static final double UPPERARM_KI = 0.5;
     public static final double UPPERARM_KD = 0.2;
