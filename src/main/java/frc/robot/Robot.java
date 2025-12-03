@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     //RobotContainer.hans.positionMotor(45);
-    RobotContainer.vreni.elevateMasterMotor.heightPosition();
+    RobotContainer.vreni.heightPosition(30); // TODO: See problem
    
   }
 
