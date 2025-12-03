@@ -3,26 +3,22 @@ package frc.robot.subsystems;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.fridowpi.motors.FridoFalcon500v6;
+import frc.fridowpi.motors.FridoSparkMax;
 import frc.fridowpi.motors.FridolinsMotor.LimitSwitchPolarity;
 
 public class RoboterSubsystem extends SubsystemBase {
-    FridoFalcon500v6 motor;
+    FridoSparkMax motor;
 
     public RoboterSubsystem() {
-        motor = new FridoFalcon500v6(50);
+        motor = new FridoSparkMax(50);
 
-        motor.enableForwardLimitSwitch(LimitSwitchPolarity.kNormallyClosed, true);
+        motor.enableForwardLimitSwitch(LimitSwitchPolarity.kNormallyClosed, false);
 
         Shuffleboard.getTab("Roboter").add("Roboter", this);
     }
 
     public boolean getLimitSwitch() {
         return motor.isForwardLimitSwitchActive();
-    }
-
-    public void setLimitSwitch(boolean b) {
-        motor.enableForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen, b);
     }
 
     public void set() {
@@ -35,6 +31,6 @@ public class RoboterSubsystem extends SubsystemBase {
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        builder.addBooleanProperty("Encoder Value", this::getLimitSwitch, this::setLimitSwitch);
+        builder.addBooleanProperty("Encoder Value", this::getLimitSwitch, null);
     }
 }
