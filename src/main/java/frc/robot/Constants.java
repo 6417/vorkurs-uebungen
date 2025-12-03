@@ -44,10 +44,18 @@ public final class Constants {
         public static boolean isLimitSwitchPressed() {
             // TODO Auto-generated method stub
             throw new UnsupportedOperationException("Unimplemented method 'isLimitSwitchPressed'");
-        }
+        } 
+    }
 
-    
-        
+    public static final class Elevator {
+        public static final int elevateMasterMotorId = 30;
+        public static final int elevateFollowerMotorId = 31;   
+        public static final PidValues pid = new PidValues(2, 0, 0);
+        public static final double speedUp = 0;
+        public static final double speedDown = 0; 
+        public static final double heightMaxUp = 1;
+        public static final double heightMaxDown = 73;
+        public static final double targetHeight = 30;
     }
 
     public static final class SwerveDrive {

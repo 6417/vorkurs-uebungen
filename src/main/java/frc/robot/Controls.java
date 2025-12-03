@@ -3,7 +3,7 @@ package frc.robot;
 import java.util.Map;
 
 import edu.wpi.first.wpilibj2.command.Commands;
-
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -95,7 +95,9 @@ public class Controls implements Sendable {
                 
                 xButtonAngle.onTrue(new AngleCommand(30)); //TODO: das in Constants tun
                 yButtonAngle.onTrue(new AngleCommand(15));
-                aButtonAngle.onTrue(new AngleCommand(30).andThen(new IntakeCommand()));
+                aButtonAngle.onTrue(new AngleCommand(30).andThen(new IntakeCommand()).raceWith(new WaitCommand(2)));
+
+                
 
         
         Shuffleboard.getTab("Drive").add("Controls", this);

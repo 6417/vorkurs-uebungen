@@ -19,7 +19,7 @@ public class Coralhandler extends SubsystemBase {
   public Coralhandler() {
     angleMotor = new FridoSparkMax(Constants.Coralhandler.angleMotorId);
     intakeMotor = new FridoSparkMax(Constants.Coralhandler.intakeMotorId);
-    intakeMotor.enableForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen, true);
+    intakeMotor.enableForwardLimitSwitch(LimitSwitchPolarity.kNormallyClosed, true);
 
     angleMotor.setPID(Constants.Coralhandler.pid);
     //intakeMotor.setPID(Constants.Coralhandler.pidIntake);

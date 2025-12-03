@@ -22,13 +22,11 @@ public class IntakeCommand extends Command {
     addRequirements(RobotContainer.hans);
   }
   
-
   // Called when the command is initially scheduled.
   // ------start des Befehls (startbedingungen)-------
   @Override
   public void initialize() {
     RobotContainer.hans.intakeMotor();
-    System.out.println("intake initialized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,7 +39,7 @@ public class IntakeCommand extends Command {
   // ----------beendet den command------------
   @Override
   public void end(boolean interrupted) {
-    //TODO: Hier Motor abschalten
+    RobotContainer.hans.stopMotor();
   }
 
   // Returns true when the command should end
