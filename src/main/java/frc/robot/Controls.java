@@ -27,18 +27,20 @@ public class Controls implements Sendable {
       ybutton.onTrue(new PrintVorkursCommand(1));
       xbutton.whileTrue(new PrintVorkursCommand(2));
 
-      windowsButton.onTrue(new PrintVorkursCommand(1).andThen(
-                           new WaitCommand(2).andThen(
-                           new ExampleCommand()
-                          )));
+      windowsButton.onTrue(new PrintVorkursCommand(1).
+            andThen(new WaitCommand(2).
+            andThen(new ExampleCommand()
+      )));
 
-      burgerButton.onTrue(new PrintVorkursCommand(3).alongWith(
-                          new PrintVorkursCommand(2).andThen(
-                            new WaitCommand(1).andThen(
-                              new ExampleCommand().alongWith(new PrintVorkursCommand(1))
-                            )
-                           )
-                         ));
+      burgerButton.onTrue(new PrintVorkursCommand(3).
+            alongWith(new PrintVorkursCommand(2).
+                andThen(
+                    new WaitCommand(1).
+                    andThen(new ExampleCommand().
+                    alongWith(new PrintVorkursCommand(1))
+                    )
+                )
+      ));
 
       abutton.onTrue(new ExamplePrallel(0));
       bbutton.onTrue(new ExampleSequential(1));
