@@ -61,6 +61,10 @@ public class ClimbSubsytem extends SubsystemBase {
     System.out.printf("Example Subsystem set Motor speed at %f\n", speed);
   }
 
+  public void setWireMotorAngle(double angle) {
+    wireMotor.setPosition(angle);
+  }
+
   /**
    * stops the motor
    */
