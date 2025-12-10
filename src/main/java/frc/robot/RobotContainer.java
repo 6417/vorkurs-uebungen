@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import frc.robot.Constants.Elevator;
+import frc.robot.subsystems.Elevator;
 import frc.robot.commands.Autos;
 import frc.robot.subsystems.Coralhandler;
 import frc.robot.subsystems.swervedrive.SwerveDrive;
@@ -22,9 +22,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The subcomponents
   public static SwerveDrive drive = new SwerveDrive(Constants.SwerveDrive.configs);
-  public static final Coralhandler hans = new Coralhandler();
-  public static final Controls m_controls = new Controls();
-  public static final Elevator vreni = new Elevator();
+  public static Coralhandler hans = new Coralhandler();
+  public static Controls m_controls = new Controls();
+  public static Elevator vreni = new Elevator();
   /*
    * TODO: Add the drivesubsystem
    */

@@ -4,10 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.spark.config.SoftLimitConfig;
-
-import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.fridowpi.motors.FridoSparkMax;
 import frc.fridowpi.motors.FridolinsMotor.DirectionType;
