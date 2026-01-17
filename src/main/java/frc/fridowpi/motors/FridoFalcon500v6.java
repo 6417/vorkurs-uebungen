@@ -19,11 +19,14 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ForwardLimitTypeValue;
 import com.ctre.phoenix6.signals.ForwardLimitValue;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.ReverseLimitTypeValue;
 import com.ctre.phoenix6.signals.ReverseLimitValue;
 
 import edu.wpi.first.units.Measure;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import frc.fridowpi.motors.utils.FeedForwardValues;
 import frc.fridowpi.motors.utils.PidValues;
 
@@ -185,14 +188,31 @@ public class FridoFalcon500v6 implements FridolinsMotor {
 		return motorProxy.get();
 	}
 
+	/**
+	*   Experimental, new Phoenix 6 implementation
+	*/
 	@Override
 	public void setInverted(boolean isInverted) {
-		motorProxy.setInverted(isInverted);
+		var cfg = new MotorOutputConfigs();
+		
+		if (isInverted) {
+			cfg.Inverted = InvertedValue.Clockwise_Positive;
+		}
+		else
+		{
+			cfg.Inverted = InvertedValue.CounterClockwise_Positive;
+		}
+
+		motorProxy.getConfigurator().apply(cfg);
 	}
 
 	@Override
 	public boolean getInverted() {
-		return motorProxy.getInverted();
+		MotorOutputConfigs cfg = new MotorOutputConfigs();
+		motorProxy.getConfigurator().refresh(cfg);
+		boolean isClockwisePositive = cfg.Inverted == InvertedValue.Clockwise_Positive;
+
+		return isClockwisePositive; // normal direction counter-clockwise positive.
 	}
 
 	@Override
@@ -271,10 +291,15 @@ public class FridoFalcon500v6 implements FridolinsMotor {
 	public void follow(FridolinsMotor master, DirectionType direction) {
 		if (master instanceof TalonFX) {
 			motorProxy.setControl(
-					new Follower(((TalonFX) master).getDeviceID(), direction == DirectionType.invertMaster));
+					new Follower(((TalonFX) master).getDeviceID(), direction == DirectionType.invertMaster
+							? MotorAlignmentValue.Opposed
+							: MotorAlignmentValue.Aligned));
+						//	.withInvert(direction == DirectionType.invertMaster));
 		} else if (master instanceof FridoFalcon500v6) {
-			motorProxy.setControl(new Follower(((FridoFalcon500v6) master).asTalonFX().getDeviceID(),
-					direction == DirectionType.invertMaster));
+			motorProxy.setControl(new Follower(((FridoFalcon500v6) master).asTalonFX().getDeviceID(), direction == DirectionType.invertMaster
+							? MotorAlignmentValue.Opposed
+							: MotorAlignmentValue.Aligned));
+					//.withInvert(direction == DirectionType.invertMaster));
 		} else {
 			throw new Error("Can only follow 'com.ctre.phoenix6.hardware.TalonFX' or FridoFalcon motors");
 		}
