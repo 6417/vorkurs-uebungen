@@ -1,63 +1,85 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import java.util.Map;
+
+import java.util.HashMap;
+
+import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.NamedCommands;
+
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.FeederSubsystem;
+import frc.robot.commands.climber.RelaseChuchichaestliAndHomeRelativeEncoderCommand;
+import frc.robot.commands.intake.IntakeCommand;
+import frc.robot.commands.shooter.ShooterParallelCommandGroup;
+import frc.robot.commands.turret.SmartTurret;
+import frc.robot.commands.turret.TurretZeroCommand;
+import frc.robot.commands.turret.ZeroGroup;
+import frc.robot.subsystems.CalculationSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
- */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+    public static final Pigeon2 gyro;
+    public static final IntakeSubsystem intake;
+    public static final SwerveSubsystem drive;
+    public static final VisionSubsystem vision;
+    public static final ClimberSubsystem climber;
+    public static final TurretSubsystem turret;
+    public static final IndexerSubsystem indexer;
+    public static final ShooterSubsystem shooter;
+    public static final FeederSubsystem feeder;
+    public static final CalculationSubsystem calculationSubsystem;
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+    public static final Controls controls;
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    // Configure the trigger bindings
-    configureBindings();
-  }
+    private static final Map<String,Command> namedCommands;
+    private static final SendableChooser<String> autoChooser = new SendableChooser<>();
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
-  private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+    static {
+        intake = new IntakeSubsystem();
+        gyro = new Pigeon2(Constants.Gyro.PIGEON_ID);
+        vision = new VisionSubsystem();
+        drive = new SwerveSubsystem();
+        turret = new TurretSubsystem();
+        climber = new ClimberSubsystem();
+        shooter = new ShooterSubsystem();
+        feeder = new FeederSubsystem();
+        indexer = new IndexerSubsystem();
+        calculationSubsystem = new CalculationSubsystem();
+        controls = new Controls();
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-  }
+        namedCommands = new HashMap<String,Command>();
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
-  }
+        namedCommands.put("Shoot", new ShooterParallelCommandGroup());
+        namedCommands.put("SmartTurret", new SmartTurret());
+        namedCommands.put("Intake", new IntakeCommand());
+        namedCommands.put("ZeroGroup", new ZeroGroup());
+
+        NamedCommands.registerCommands(namedCommands);
+
+        autoChooser.addOption("Left", "Left");
+        autoChooser.addOption("Right", "Right");
+        autoChooser.addOption("Middle", "Middle");
+        autoChooser.addOption("LeftNeutralzone", "LeftNeutralzone");
+        autoChooser.addOption("LeftShootFirst", "LeftShootFirst");
+        autoChooser.addOption("RightShootFirst", "RightShootFirst");
+        
+        autoChooser.addOption("None", null);
+        autoChooser.setDefaultOption("None", null);
+        
+        SmartDashboard.putData("Auto Selector", autoChooser);
+    }
+
+    public Command getAutonomousCommand() {
+        //System.out.println(autoChooser.getSelected().toString());
+        return drive.getAutonomousCommand(autoChooser.getSelected());
+    }
 }

@@ -4,98 +4,214 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
+import org.littletonrobotics.junction.LogFileUtil;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.climber.ClearHatchetForMovement;
+import frc.robot.commands.climber.RelaseChuchichaestliAndHomeRelativeEncoderCommand;
+import frc.robot.commands.turret.ZeroGroup;
 
 /**
- * The methods in this class are called automatically corresponding to each mode, as described in
- * the TimedRobot documentation. If you change the name of this class or the package after creating
+ * The methods in this class are called automatically corresponding to each
+ * mode, as described in
+ * the TimedRobot documentation. If you change the name of this class or the
+ * package after creating
  * this project, you must also update the Main.java file in the project.
  */
-public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
-
-  private final RobotContainer m_robotContainer;
+public class Robot extends LoggedRobot { // LoggedRobot for AdvantageKit
+  private final RobotContainer robotContainer;
+  private Command autonomousCommand;
+  private static boolean wereMechanismsZeroed;
 
   /**
-   * This function is run when the robot is first started up and should be used for any
+   * This function is run when the robot is first started up and should be used
+   * for any
    * initialization code.
    */
   public Robot() {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    wereMechanismsZeroed = false;
+    // Advantage Kit initialization
+    Logger.recordMetadata("ProjectName", "MyProject"); // Set a metadata value
+
+    if (isReal()) {
+      Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
+      Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+    } else {
+      setUseTiming(false); // Run as fast as possible
+      String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
+      Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
+      Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
+    }
+
+    Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
+                    // be added.
+    LimelightHelpers.SetIMUMode(Constants.Limelight.underTurretLimelight, 0);
+    LimelightHelpers.SetIMUMode(Constants.Limelight.onTurretLimelight, 0);
+    LimelightHelpers.SetIMUAssistAlpha(Constants.Limelight.underTurretLimelight, 0.001);
+    LimelightHelpers.SetIMUAssistAlpha(Constants.Limelight.onTurretLimelight, 0.001);
+    robotContainer = new RobotContainer();
+    RobotContainer.climber.disableServoHatchet();
+
   }
 
   /**
-   * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
+   * This function is called every 20 ms, no matter the mode. Use this for items
+   * like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before LiveWindow and
+   * <p>
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and
    * SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
-    // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
   }
 
-  /** This function is called once each time the robot enters Disabled mode. */
-  @Override
-  public void disabledInit() {}
-
-  @Override
-  public void disabledPeriodic() {}
-
-  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+  /**
+   * This autonomous (along with the chooser code above) shows how to select
+   * between different
+   * autonomous modes using the dashboard. The sendable chooser code works with
+   * the Java
+   * SmartDashboard. If you prefer the LabVIEW Dashboard, remove all of the
+   * chooser code and
+   * uncomment the getString line to get the auto name from the text box below the
+   * Gyro
+   *
+   * <p>
+   * You can add additional auto modes by adding additional comparisons to the
+   * switch structure
+   * below with additional strings. If using the SendableChooser make sure to add
+   * them to the
+   * chooser code above as well.
+   */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    if (DriverStation.getAlliance().get() == Alliance.Blue) {
+      Constants.Field.EDGERight = new Pose2d(1.85, 1.43, null);
+      Constants.Field.EDGELeft = new Pose2d(1.85, 6.28, null);
+      Constants.Field.HUB_CENTER = Constants.Field.HUB_CENTER_BLUE;
+      Constants.Field.neutralZoneStartX = Units.inchesToMeters(Constants.Field.START_NEUTRALZONE_INCHES);
 
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    } else {
+      Constants.Field.EDGERight = new Pose2d(14.71, 6.28, null);
+      Constants.Field.EDGELeft = new Pose2d(14.71, 1.43, null);
+      Constants.Field.HUB_CENTER = Constants.Field.HUB_CENTER_RED;
+      Constants.Field.neutralZoneStartX = Units
+          .inchesToMeters(Constants.Field.FIELD_LENGTH_INCHES - Constants.Field.START_NEUTRALZONE_INCHES);
+    }
+
+    LimelightHelpers.SetThrottle(Constants.Limelight.underTurretLimelight, 0); // "Enable" Limelight
+    LimelightHelpers.SetThrottle(Constants.Limelight.onTurretLimelight, 0); // "Enable" Limelight
+    LimelightHelpers.SetIMUMode(Constants.Limelight.underTurretLimelight, 0); // Use internal IMU + external assist
+    LimelightHelpers.SetIMUMode(Constants.Limelight.onTurretLimelight, 0); // Use internal IMU + external assist
+    RobotContainer.drive.setAutomatedControl();
+    autonomousCommand = robotContainer.getAutonomousCommand();
+
+    if (autonomousCommand != null) {
+      autonomousCommand.schedule();
+      wereMechanismsZeroed = true;
     }
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
 
+  }
+
+  /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+
+    if (!wereMechanismsZeroed) {
+      ZeroGroup zg = new ZeroGroup();
+      zg.schedule();
+      wereMechanismsZeroed = true;
     }
+    if (Constants.Field.EDGELeft == null || Constants.Field.EDGERight == null || Constants.Field.HUB_CENTER == null
+        || Constants.Field.neutralZoneStartX == 0) {
+      if (DriverStation.getAlliance().get() == Alliance.Blue) {
+        Constants.Field.EDGERight = new Pose2d(0, 0, null);
+        Constants.Field.EDGELeft = new Pose2d(0, Constants.Field.FIELD_WIDTH_METERS, null);
+        Constants.Field.HUB_CENTER = Constants.Field.HUB_CENTER_BLUE;
+        Constants.Field.neutralZoneStartX = Units.inchesToMeters(Constants.Field.START_NEUTRALZONE_INCHES);
+
+      } else {
+        Constants.Field.EDGERight = new Pose2d(Constants.Field.FIELD_LENGTH_METERS, Constants.Field.FIELD_WIDTH_METERS,
+            null);
+        Constants.Field.EDGELeft = new Pose2d(Constants.Field.FIELD_LENGTH_METERS, 0, null);
+        Constants.Field.HUB_CENTER = Constants.Field.HUB_CENTER_RED;
+        Constants.Field.neutralZoneStartX = Units.inchesToMeters(Constants.Field.FIELD_LENGTH_INCHES - Constants.Field.START_NEUTRALZONE_INCHES);
+      }
+    }
+
+    LimelightHelpers.SetThrottle(Constants.Limelight.underTurretLimelight, 0); // "Enable" Limelight
+    LimelightHelpers.SetThrottle(Constants.Limelight.onTurretLimelight, 0); // "Enable" Limelight
+    LimelightHelpers.SetRobotOrientation(Constants.Limelight.underTurretLimelight,
+        RobotContainer.drive.getHeading().getDegrees(), 0, 0, 0, 0, 0); // Seed Limelights IMU with Pigeon 2 yaw
+    LimelightHelpers.SetRobotOrientation(Constants.Limelight.onTurretLimelight,
+        RobotContainer.drive.getHeading().getDegrees(), 0, 0, 0, 0, 0); // Seed Limelights IMU with Pigeon 2 yaw
+    LimelightHelpers.SetIMUMode(Constants.Limelight.underTurretLimelight, 0); // Use internal IMU + external assist
+    LimelightHelpers.SetIMUMode(Constants.Limelight.onTurretLimelight, 0); // Use internal IMU + external assist
+    RobotContainer.drive.setOperatorControl();
+    // Always disengage Climber Servo at startup.
+    new ClearHatchetForMovement().schedule();
+    RobotContainer.climber.disableServoHatchet();
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+  }
 
+  /** This function is called once when the robot is disabled. */
+  @Override
+  public void disabledInit() {
+    LimelightHelpers.SetThrottle(Constants.Limelight.underTurretLimelight, 200); // Sort of disable Limelight, so there
+                                                                                 // is less thermal production
+    LimelightHelpers.SetThrottle(Constants.Limelight.onTurretLimelight, 200); // Sort of disable Limelight, so there is
+                                                                              // less thermal production
+  }
+
+  /** This function is called periodically when disabled. */
+  @Override
+  public void disabledPeriodic() {
+    LimelightHelpers.SetIMUMode(Constants.Limelight.underTurretLimelight, 1); // Seed IMU when disabled
+    LimelightHelpers.SetIMUMode(Constants.Limelight.onTurretLimelight, 1); // Seed IMU when disabled
+  }
+
+  /** This function is called once when test mode is enabled. */
   @Override
   public void testInit() {
-    // Cancels all running commands at the start of test mode.
+    LimelightHelpers.SetThrottle(Constants.Limelight.underTurretLimelight, 0); // "Enable" Limelight
+    LimelightHelpers.SetThrottle(Constants.Limelight.onTurretLimelight, 0); // "Enable" Limelight
     CommandScheduler.getInstance().cancelAll();
   }
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+  }
 
   /** This function is called once when the robot is first started up. */
   @Override
-  public void simulationInit() {}
+  public void simulationInit() {
+  }
 
   /** This function is called periodically whilst in simulation. */
   @Override
-  public void simulationPeriodic() {}
+  public void simulationPeriodic() {
+  }
 }
