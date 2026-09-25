@@ -13,7 +13,6 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,7 +20,6 @@ import frc.fridowpi.motors.FridoSparkMax;
 import frc.fridowpi.motors.utils.PidValues;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.commands.turret.SmartTurret;
 import org.littletonrobotics.junction.Logger;
 
 public class TurretSubsystem extends SubsystemBase {
@@ -120,7 +118,6 @@ public class TurretSubsystem extends SubsystemBase {
 
     // set desired rotation (in degrees!)
     public void setDesiredRotation(Rotation2d rotation) {
-        // TODO: Convert Degrees to encoder ticks
         double pos = rotation.getDegrees();
         pos = clamp(pos, -100, 100); // clamp the position to the limits of the turret; here in degrees
         pos = degreesToEncoderTicks(pos);

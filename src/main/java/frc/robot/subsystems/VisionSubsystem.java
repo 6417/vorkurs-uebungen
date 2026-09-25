@@ -5,7 +5,6 @@ import frc.robot.Constants;
 
 import org.littletonrobotics.junction.Logger;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -150,8 +149,6 @@ public class VisionSubsystem extends SubsystemBase {
         }
 
         if (!doRejectUpdate) {
-            double clampedDist = Math.max(mt1OnTurret.avgTagDist, 0.5);
-
             // // NO ODOMETRY UPDATES with **ON** turret limelight BUT log it
             // RobotContainer.drive.getSwerveDrive()
             // .setVisionMeasurementStdDevs(Constants.Limelight.standardDevs.times(clampedDist

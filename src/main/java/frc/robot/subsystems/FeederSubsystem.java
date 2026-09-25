@@ -5,12 +5,10 @@ import org.littletonrobotics.junction.Logger;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.ClosedLoopSlot;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.FeedForwardConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.fridowpi.motors.FridoServoMotor;
@@ -26,7 +24,6 @@ public class FeederSubsystem extends SubsystemBase {
         servoFeeder = new FridoServoMotor(9);
         feederMotor = new FridoSparkMax(Constants.Feeder.motorId);
 
-        // TODO: Check if motor is inverted.
         feederMotor.setInverted(Constants.Feeder.motorInverted);
 
         motorConfig = new SparkMaxConfig();
@@ -56,7 +53,6 @@ public class FeederSubsystem extends SubsystemBase {
 
     public void run(double topRpm) {
         // velocity control takes RPM as input
-        // feederMotor.asSparkMax().getClosedLoopController().setSetpoint(topRpm, ControlType.kVelocity);
         feederMotor.set(1);
     }
 

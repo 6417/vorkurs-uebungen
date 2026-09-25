@@ -1,16 +1,11 @@
 package frc.robot.subsystems;
 
-import java.awt.Robot;
-
 import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.configs.ClosedLoopGeneralConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.Slot1Configs;
-import com.ctre.phoenix6.configs.SlotConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.signals.GainSchedBehaviorValue;
 import com.ctre.phoenix6.signals.GainSchedKpBehaviorValue;
@@ -24,13 +19,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.fridowpi.motors.FridoFalcon500v6;
 import frc.fridowpi.motors.FridoServoMotor;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 
 public class ClimberSubsystem extends SubsystemBase {
     private final FridoFalcon500v6 climberMotor;
     private final Servo servoHatchet;
     private final MotionMagicVoltage motionMagicRequest = new MotionMagicVoltage(0.0);
-    private final MotorOutputConfigs motorConfigs = new MotorOutputConfigs();
     private final ClosedLoopGeneralConfigs closedLoopGeneralConfigs = new ClosedLoopGeneralConfigs();
     private final Slot0Configs motionMagicSlot1 = new Slot0Configs();
     private final Slot1Configs motionMagicSlot2 = new Slot1Configs();

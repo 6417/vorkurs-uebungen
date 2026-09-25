@@ -3,13 +3,11 @@ package frc.robot;
 import java.util.Map;
 
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.math.Nat;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -27,9 +25,7 @@ import frc.robot.commands.climber.PrepareClimbCommand;
 import frc.robot.commands.turret.SmartTurret;
 import frc.robot.commands.turret.TurretControlled;
 import frc.robot.commands.turret.TurretZeroCommand;
-import frc.robot.commands.turret.ZeroGroup;
 import frc.robot.subsystems.CalculationSubsystem.ShootingMode;
-import frc.robot.Constants;
 
 /**
  * Holds the data concerning input, which should be available
