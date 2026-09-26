@@ -24,45 +24,16 @@ public final class Constants {
   }
 
   public static class Intake {
-    public static final int ID = 10;
+    /*
+     * TODO:
+     * - Set Motor ID
+     */
+    public static final int ID = ;
 
-    public static final MotorType MOTOR_TYPE = MotorType.kBrushless;
-    public static final SparkBaseConfig CONFIG = SparkMaxConfig.Presets.REV_NEO;
-    public static final ResetMode RESET_MODE = ResetMode.kNoResetSafeParameters;
-    public static final PersistMode PERSIST_MODE = PersistMode.kNoPersistParameters;
+    public  SparkMaxConfig CONFIG = new SparkMaxConfig();
 
     public static final double INTAKE_SPEED = -0.4;
     public static final double OUTSPITT_SPEED = 0.6; 
-  }
-
-  public static final class Shooter {
-    public static final class ShooterMotor {
-      public static final int ID = 22;
-      public static final MotorType MOTOR_TYPE = MotorType.kBrushless;
-      public static final SparkBaseConfig CONFIG = SparkMaxConfig.Presets.REV_NEO;
-      public static final ResetMode RESET_MODE = ResetMode.kNoResetSafeParameters;
-      public static final PersistMode PERSIST_MODE = PersistMode.kNoPersistParameters;
-    }
-
-    public static final class AngleMotor {
-      public static final int ID = 23;
-      public static final MotorType MOTOR_TYPE = MotorType.kBrushless;
-      public static final SparkBaseConfig CONFIG = SparkMaxConfig.Presets.REV_NEO_550;
-      public static final ResetMode RESET_MODE = ResetMode.kNoResetSafeParameters;
-      public static final PersistMode PERSIST_MODE = PersistMode.kNoPersistParameters;
-    }
-
-    public static final class FeederMotor {
-      public static final int ID = 20;
-      public static final MotorType MOTOR_TYPE = MotorType.kBrushless;
-      public static final SparkBaseConfig CONFIG = SparkMaxConfig.Presets.REV_NEO_550;
-      public static final ResetMode RESET_MODE = ResetMode.kNoResetSafeParameters;
-      public static final PersistMode PERSIST_MODE = PersistMode.kNoPersistParameters;
-    }
-
-    public static final double ANGLE_SPEED = 0.8;
-    public static final double SHOOT_SPEED = 0.5;
-    public static final double FEEDER_SPEED = 0.4;
   }
 
   public static final class Joystick {

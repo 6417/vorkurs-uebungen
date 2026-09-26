@@ -5,9 +5,9 @@
 package frc.robot;
 
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -22,7 +22,6 @@ public class RobotContainer {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static final Intake intake = new Intake();
-  public static final Shooter shooter = new Shooter();
 
   public static final Controls controls = new Controls();
 
@@ -55,7 +54,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new Command() {
+    return new InstantCommand() {
     };
   }
 }

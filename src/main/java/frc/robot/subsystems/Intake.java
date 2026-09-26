@@ -2,7 +2,10 @@ package frc.robot.subsystems;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -11,20 +14,38 @@ public class Intake extends SubsystemBase {
     private SparkMax motor;
 
     public Intake() {
-        motor = new SparkMax(Constants.Intake.ID, Constants.Intake.MOTOR_TYPE);
-        motor.configure(Constants.Intake.CONFIG, Constants.Intake.RESET_MODE, Constants.Intake.PERSIST_MODE);
+        /*
+         * TODO:
+         * - Die Motor-Instance erstellen.
+         */
+
+        // Configurations
+        SparkMaxConfig config = new SparkMaxConfig();
+
+        config.apply(SparkMaxConfig.Presets.REV_NEO);
+
+        motor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public void intake() {
-        motor.set(Constants.Intake.INTAKE_SPEED);
+        /*
+         * TODO:
+         * - Motor drehen
+         */
     }
 
     public void spittOut() {
-        motor.set(Constants.Intake.OUTSPITT_SPEED);
+        /*
+         * TODO:
+         * - Motor drehen
+         */
     }
 
     public void stop() {
-        motor.set(0);
+        /*
+         * TODO:
+         * - Der Motor stoppen
+         */
     }
 
     @Override

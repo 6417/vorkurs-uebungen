@@ -4,10 +4,8 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.AngleSetterCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.OutspittCommand;
-import frc.robot.commands.ShootCommand;
 
 public class Controls implements Sendable{
     public CommandXboxController operatorJoystick = new CommandXboxController(
@@ -32,11 +30,6 @@ public class Controls implements Sendable{
     Trigger leftStickOperator = operatorJoystick.leftStick();
 
     public Controls() {
-        yButtonOperator.whileTrue(new AngleSetterCommand(1));
-        aButtonOperator.whileTrue(new AngleSetterCommand(-1));
-
-        rtButtonOperator.whileTrue(new ShootCommand().alongWith(new IntakeCommand()));
-
         ltButtonOperator.whileTrue(new IntakeCommand());
         lbButtonOperator.whileTrue(new OutspittCommand());
     }
