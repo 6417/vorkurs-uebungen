@@ -78,8 +78,8 @@ public class Constants {
     }
 
     public static final class Shooter {
-        public static final int topMotorId = 41;
-        public static final int bottomMotorId = 40;
+        public static final int topMotorId = ;
+        public static final int bottomMotorId = ;
         public static int feederMotorId = 31;
 
         public static final double shooterPercent = 0.6;
