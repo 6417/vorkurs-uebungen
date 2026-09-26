@@ -5,8 +5,11 @@ package frc.robot.subsystems;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -14,34 +17,52 @@ import frc.robot.Constants;
 public class ShooterSubsystem extends SubsystemBase {
 
     private SparkMax shooterMotorLeft;
-    private SparkMax shooterMotorRight;
     private SparkMax feederMotor;
 
-    /**
-     * Creates a new ExampleSubsystem.
-     */
     public ShooterSubsystem() {
-
         // Initialize all motors
-        shooterMotorLeft = new SparkMax(Constants.Shooter.shooterLeftMotorId, SparkLowLevel.MotorType.kBrushless);
-        shooterMotorRight = new SparkMax(Constants.Shooter.shooterRightMotorId, SparkLowLevel.MotorType.kBrushless);
-        feederMotor = new SparkMax(Constants.Shooter.feederMotorId, SparkLowLevel.MotorType.kBrushless);
+        /*
+         * TODO:
+         * - Instanziere den Feeder-Motor
+         */
 
+        shooterMotorLeft = new SparkMax(Constants.Shooter.shooterLeftMotorId, SparkLowLevel.MotorType.kBrushless);
+
+        SparkMaxConfig feederConfig = new SparkMaxConfig();
+        feederConfig.apply(SparkMaxConfig.Presets.REV_NEO);
+        feederMotor.configure(feederConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+
+        SparkMaxConfig shooterLeftConfig = new SparkMaxConfig();
+        shooterLeftConfig.apply(SparkMaxConfig.Presets.REV_NEO);
+        shooterMotorLeft.configure(shooterLeftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     }
 
-    public void runFeeder(double percent) {
-      feederMotor.set(percent);
+    public void shoot(double speed) {
+      shooterMotorLeft.set(speed);
+    }
+
+    public void stopShooting() {
+      shooterMotorLeft.stopMotor();
+    }
+
+    public void runFeeder(double speed) {
+      /*
+       * TODO:
+       * - Run Feeder
+       */
     }
 
     public void stopFeeder() {
-      feederMotor.stopMotor();
+      /*
+       * TODO:
+       * - Stop Motor
+       */
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
         Logger.recordOutput("Shooter/MotorLeftRPM", shooterMotorLeft.getEncoder().getVelocity());
-        Logger.recordOutput("Shooter/MotorRightRPM", shooterMotorRight.getEncoder().getVelocity());
         Logger.recordOutput("Shooter/MotorFeederRPM", feederMotor.getEncoder().getVelocity());
     }
 }
