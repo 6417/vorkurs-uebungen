@@ -4,6 +4,12 @@
 
 package frc.robot;
 
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -15,5 +21,51 @@ package frc.robot;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+  }
+
+  public static class Intake {
+    public static final int ID = 10;
+
+    public static final MotorType MOTOR_TYPE = MotorType.kBrushless;
+    public static final SparkBaseConfig CONFIG = SparkMaxConfig.Presets.REV_NEO;
+    public static final ResetMode RESET_MODE = ResetMode.kNoResetSafeParameters;
+    public static final PersistMode PERSIST_MODE = PersistMode.kNoPersistParameters;
+
+    public static final double INTAKE_SPEED = -0.4;
+    public static final double OUTSPITT_SPEED = 0.6; 
+  }
+
+  public static final class Shooter {
+    public static final class ShooterMotor {
+      public static final int ID = 22;
+      public static final MotorType MOTOR_TYPE = MotorType.kBrushless;
+      public static final SparkBaseConfig CONFIG = SparkMaxConfig.Presets.REV_NEO;
+      public static final ResetMode RESET_MODE = ResetMode.kNoResetSafeParameters;
+      public static final PersistMode PERSIST_MODE = PersistMode.kNoPersistParameters;
+    }
+
+    public static final class AngleMotor {
+      public static final int ID = 23;
+      public static final MotorType MOTOR_TYPE = MotorType.kBrushless;
+      public static final SparkBaseConfig CONFIG = SparkMaxConfig.Presets.REV_NEO_550;
+      public static final ResetMode RESET_MODE = ResetMode.kNoResetSafeParameters;
+      public static final PersistMode PERSIST_MODE = PersistMode.kNoPersistParameters;
+    }
+
+    public static final class FeederMotor {
+      public static final int ID = 20;
+      public static final MotorType MOTOR_TYPE = MotorType.kBrushless;
+      public static final SparkBaseConfig CONFIG = SparkMaxConfig.Presets.REV_NEO_550;
+      public static final ResetMode RESET_MODE = ResetMode.kNoResetSafeParameters;
+      public static final PersistMode PERSIST_MODE = PersistMode.kNoPersistParameters;
+    }
+
+    public static final double ANGLE_SPEED = 0.8;
+    public static final double SHOOT_SPEED = 0.5;
+    public static final double FEEDER_SPEED = 0.4;
+  }
+
+  public static final class Joystick {
+    public static final int ID = 0;
   }
 }
