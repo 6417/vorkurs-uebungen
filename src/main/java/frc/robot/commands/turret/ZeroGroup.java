@@ -1,0 +1,13 @@
+package frc.robot.commands.turret;
+
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.commands.climber.RelaseChuchichaestliAndHomeRelativeEncoderCommand;
+
+public class ZeroGroup extends ParallelCommandGroup {
+    public ZeroGroup() {
+        super.addCommands(
+            new TurretZeroCommand(),
+            new RelaseChuchichaestliAndHomeRelativeEncoderCommand()
+        );
+    }
+}
