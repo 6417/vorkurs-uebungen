@@ -28,12 +28,10 @@ public final class Constants {
      * TODO:
      * - Set Motor ID
      */
-    public static final int ID = ;
+    public static final int id = ;
 
-    public  SparkMaxConfig CONFIG = new SparkMaxConfig();
-
-    public static final double INTAKE_SPEED = -0.4;
-    public static final double OUTSPITT_SPEED = 0.6; 
+    public static final double intakeSpeed = -0.4;
+    public static final double outspittSpeed = 0.6; 
   }
 
   public static final class Joystick {
