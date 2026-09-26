@@ -33,7 +33,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import frc.robot.Constants;
-import frc.robot.LimelightHelpers;
 import frc.robot.RobotContainer;
 
 import swervelib.SwerveController;
@@ -120,21 +119,6 @@ public class SwerveSubsystem extends SubsystemBase {
         return getAlliance() == Alliance.Blue
                 ? Constants.Field.ODOMETRY_SET_POSE_BLUE
                 : Constants.Field.ODOMETRY_SET_POSE_RED;
-    }
-
-    public void resetOdometryToManualSetPose() {
-        Pose2d manualSetPose = getManualOdometrySetPose();
-        resetOdometry(manualSetPose);
-
-        double headingDegrees = manualSetPose.getRotation().getDegrees();
-        if (RobotContainer.vision.isUnderTurretLimelightConnected()) {
-            LimelightHelpers.SetRobotOrientation(Constants.Limelight.underTurretLimelight, headingDegrees, 0, 0, 0, 0, 0);
-        }
-        if (RobotContainer.vision.isOnTurretLimelightConnected()) {
-            LimelightHelpers.SetRobotOrientation(Constants.Limelight.onTurretLimelight, headingDegrees, 0, 0, 0, 0, 0);
-        }
-
-        Logger.recordOutput("Swerve/ManualOdometrySetPose", manualSetPose);
     }
 
     public void setupPathPlanner() {
@@ -424,12 +408,6 @@ public class SwerveSubsystem extends SubsystemBase {
      */
     public void zeroGyro() {
         drive.zeroGyro();
-        if (RobotContainer.vision.isUnderTurretLimelightConnected() && Constants.Limelight.useVisionUnderTurret) {
-            LimelightHelpers.SetRobotOrientation(Constants.Limelight.underTurretLimelight, 0, 0, 0, 0, 0, 0);
-        }
-        if (RobotContainer.vision.isOnTurretLimelightConnected() && Constants.Limelight.useVisionOnTurret) {
-            LimelightHelpers.SetRobotOrientation(Constants.Limelight.onTurretLimelight, 0, 0, 0, 0, 0, 0);
-        }
     }
 
     public void zeroGyroWithAlliance() {

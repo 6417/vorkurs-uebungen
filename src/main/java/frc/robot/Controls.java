@@ -2,30 +2,13 @@ package frc.robot;
 
 import java.util.Map;
 
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.drive.DriveToShootpos;
-import frc.robot.commands.drive.DriveToTrench;
-import frc.robot.commands.intake.IntakeCommand;
-import frc.robot.commands.shooter.PulseFeederCommand;
-import frc.robot.commands.shooter.ServoCommand;
 import frc.robot.commands.shooter.ShootCommand;
-import frc.robot.commands.climber.FinalClimbCommand;
-import frc.robot.commands.climber.RelaseChuchichaestliAndHomeRelativeEncoderCommand;
-import frc.robot.commands.climber.PrepareClimbCommand;
-import frc.robot.commands.turret.SmartTurret;
-import frc.robot.commands.turret.TurretControlled;
-import frc.robot.commands.turret.TurretZeroCommand;
-import frc.robot.subsystems.CalculationSubsystem.ShootingMode;
 
 /**
  * Holds the data concerning input, which should be available
@@ -36,39 +19,10 @@ public class Controls implements Sendable {
         public CommandXboxController operatorJoystick = new CommandXboxController(
                         Constants.Joystick.operatorJoystickId);
 
-        Trigger ltButtonDrive = driveJoystick.leftTrigger();
-        Trigger rtButtonDrive = driveJoystick.rightTrigger();
-        Trigger lbButtonDrive = driveJoystick.leftBumper();
-        Trigger rbButtonDrive = driveJoystick.rightBumper();
-        Trigger aButtonDrive = driveJoystick.a();
-        Trigger bButtonDrive = driveJoystick.b();
         Trigger xButtonDrive = driveJoystick.x();
-        Trigger yButtonDrive = driveJoystick.y();
-        Trigger windowsButtonDrive = driveJoystick.back();
         Trigger burgerButtonDrive = driveJoystick.start();
-        Trigger pov0Drive = driveJoystick.povUp();
-        Trigger speedButton = driveJoystick.leftStick();
         Trigger intakeButton = driveJoystick.rightStick();
-
-        Trigger ltButtonOperator = operatorJoystick.leftTrigger();
-        Trigger rtButtonOperator = operatorJoystick.rightTrigger();
-        Trigger lbButtonOperator = operatorJoystick.leftBumper();
-        Trigger rbButtonOperator = operatorJoystick.rightBumper();
-        Trigger aButtonOperator = operatorJoystick.a();
-        Trigger bButtonOperator = operatorJoystick.b();
-        Trigger xButtonOperator = operatorJoystick.x();
-        Trigger yButtonOperator = operatorJoystick.y();
-        Trigger windowsButtonOperator = operatorJoystick.back();
-        Trigger burgerButtonOperator = operatorJoystick.start();
-        Trigger pov0Operator = operatorJoystick.povUp();
-        Trigger pov2Operator = operatorJoystick.povRight();
-        Trigger pov3Operator = operatorJoystick.povDownRight();
-        Trigger pov4Operator = operatorJoystick.povDown();
-        Trigger pov5Operator = operatorJoystick.povDownLeft();
-        Trigger pov6Operator = operatorJoystick.povLeft();
-        Trigger leftStickOperator = operatorJoystick.leftStick();
-
-        private boolean automatedTurret = true;
+        Trigger shootButton = driveJoystick.leftTrigger();
 
         public enum DriveSpeed {
                 DEFAULT_SPEED,
@@ -111,99 +65,18 @@ public class Controls implements Sendable {
                 return accelerationSensitivity;
         }
 
-        public boolean isTurretAutomated() {
-                return automatedTurret;
-        }
-
         public Controls() {
-                RobotContainer.turret.setDefaultCommand(new SmartTurret());
 
+                // Configure the drive buttons
                 intakeButton.whileTrue(new InstantCommand(() -> RobotContainer.drive.setIntakeMode(true)))
                                 .onFalse(new InstantCommand(() -> RobotContainer.drive.setIntakeMode(false)));
-
                 burgerButtonDrive.onTrue(new InstantCommand(() -> {
                         RobotContainer.drive.zeroGyroWithAlliance();
                 }));
-                // Driver fallback if limelight pose updates become unreliable:
-                // BACK disables vision fusion and resets odometry to the known field placement.
-                windowsButtonDrive.onTrue(new InstantCommand(() -> {
-                        // TODO: Test on the real field that this button snaps to the intended
-                        // starting pose for both alliances and that vision re-enable behaves as expected.
-                        if (RobotContainer.vision.isVisionFusionEnabled()) {
-                                RobotContainer.vision.disableVisionFusion();
-                                RobotContainer.drive.resetOdometryToManualSetPose();
-                        }
-                        else {
-                                RobotContainer.vision.enableVisionFusion();
-                        }
-                }));
-                rbButtonDrive.whileTrue(new DriveToTrench());
-                rtButtonDrive.debounce(0.02).whileTrue(new IntakeCommand());
-
-                lbButtonDrive.whileTrue(Commands.startEnd(
-                                () -> {
-                                        setActiveSpeedFactor(DriveSpeed.SLOW);
-                                },
-                                () -> {
-                                        setActiveSpeedFactor(DriveSpeed.DEFAULT_SPEED);
-                                }));
-
                 xButtonDrive.onTrue(new InstantCommand(() -> RobotContainer.drive.lock()));
-                yButtonOperator.toggleOnTrue(new StartEndCommand(
-                                () -> {
-                                        RobotContainer.turret
-                                                        .setDefaultCommand(new TurretControlled());
-                                        automatedTurret = false;
-                                },
-                                () -> {
-                                        RobotContainer.turret.setDefaultCommand(new SmartTurret());
-                                        automatedTurret = true;
-                                }));
-                leftStickOperator.onTrue(new TurretZeroCommand());
 
-                ltButtonDrive
-                                .whileTrue(new ShootCommand()
-                                                .alongWith(new ParallelCommandGroup(new PulseFeederCommand(),
-                                                                new ServoCommand()).repeatedly()))
-                                .onFalse(new InstantCommand(() -> RobotContainer.feeder.stop()));
-                rtButtonOperator.whileTrue(new DriveToShootpos());
-
-                lbButtonOperator.whileTrue(Commands.startEnd(
-                                () -> RobotContainer.intake.ballsOut(),
-                                () -> RobotContainer.intake.stop(),
-                                RobotContainer.intake));
-
-                rbButtonOperator.onTrue(
-                                new InstantCommand(() -> {
-                                        if (RobotContainer.calculationSubsystem
-                                                        .getShootingMode() == ShootingMode.MODE_MOVEMENT_VIRTUAL) {
-                                                RobotContainer.calculationSubsystem.setShootingMode(
-                                                                ShootingMode.MODE_STATIONARY_TURRETFIX);
-                                        } else {
-                                                RobotContainer.calculationSubsystem
-                                                                .setShootingMode(ShootingMode.MODE_MOVEMENT_VIRTUAL);
-                                        }
-                                }));
-
-                xButtonOperator.whileTrue(
-                                new InstantCommand(() -> RobotContainer.indexer.run(Constants.Indexer.defaultRPM)))
-                                .onFalse(new InstantCommand(() -> RobotContainer.indexer.stop()));
-
-                // Climber presets and manual jog controls.
-                aButtonOperator.onTrue(new SequentialCommandGroup(
-                                new FinalClimbCommand(),
-                                new WaitCommand(0.3),
-                                new InstantCommand(() -> RobotContainer.climber.stop())));
-                bButtonOperator.onTrue(new PrepareClimbCommand());
-
-                pov0Operator.whileTrue(Commands.startEnd(() -> RobotContainer.climber.setManualPercent(-0.05),
-                                () -> RobotContainer.climber.setManualPercent(0)));
-                pov2Operator.onTrue(new InstantCommand(() -> RobotContainer.climber.disableServoHatchet()));
-                pov4Operator.whileTrue(Commands.startEnd(() -> RobotContainer.climber.setManualPercent(0.05),
-                                () -> RobotContainer.climber.setManualPercent(0)));
-                pov6Operator.onTrue(new InstantCommand(() -> RobotContainer.climber.enableServoHatchet()));
-                windowsButtonOperator
-                                .onTrue(new RelaseChuchichaestliAndHomeRelativeEncoderCommand());
+                // Configure the shoot button
+                shootButton.whileTrue(new ShootCommand());
 
                 Shuffleboard.getTab("Drive").add("Controls", this);
         }
@@ -243,22 +116,6 @@ public class Controls implements Sendable {
         // Shuffleboard
         public void initSendable(SendableBuilder builder) {
                 builder.setSmartDashboardType("Motor Controller");
-
-                builder.addDoubleProperty("turnSensitivity", () -> turnSensitivity,
-                                val -> turnSensitivity = val);
-
-                builder.addDoubleProperty("defaultSpeedFactor", () -> speedFactors.get(DriveSpeed.DEFAULT_SPEED),
-                                val -> speedFactors.put(DriveSpeed.DEFAULT_SPEED, val));
-                builder.addDoubleProperty("slowSpeedFactor", () -> speedFactors.get(DriveSpeed.SLOW),
-                                val -> speedFactors.put(DriveSpeed.SLOW, val));
-                builder.addDoubleProperty("fastSpeedFactor", () -> speedFactors.get(DriveSpeed.FAST),
-                                val -> speedFactors.put(DriveSpeed.FAST, val));
-                builder.addDoubleProperty("Current Speed Factor", () -> accelerationSensitivity, null);
-                builder.addBooleanProperty("SlewRateLimiter", () -> slewRateLimited,
-                                val -> slewRateLimited = val);
-                builder.addDoubleProperty("SlewRate Limit", () -> slewRateLimit, null);
-                builder.addBooleanProperty("SquareInputs", () -> inputsSquared, val -> inputsSquared = val);
-                builder.addBooleanProperty("isAutomatedTurret", () -> isTurretAutomated(), null);
         }
 
 }
