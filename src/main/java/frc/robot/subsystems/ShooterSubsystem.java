@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import java.security.Key;
+import java.time.format.SignStyle;
+
 import org.littletonrobotics.junction.Logger;
 
 import com.revrobotics.PersistMode;
@@ -26,10 +29,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // Initialize the motors
     feederMotor = new SparkMax(Constants.Shooter.feederMotorId, SparkLowLevel.MotorType.kBrushless);
     shooterMotorTop = new SparkFlex(Constants.Shooter.topMotorId, SparkLowLevel.MotorType.kBrushless);
-
-    /*
-      TODO : Initialize the top shooter motor
-    */
+    shooterMotorBottom = new SparkFlex(Constants.Shooter.bottomMotorId, SparkLowLevel.MotorType.kBrushless);
 
     // Configure the motors
     SparkMaxConfig feederConfig = new SparkMaxConfig();
@@ -39,23 +39,18 @@ public class ShooterSubsystem extends SubsystemBase {
     SparkMaxConfig shooterTopConfig = new SparkMaxConfig();
     shooterTopConfig.apply(SparkMaxConfig.Presets.REV_Vortex);
     shooterMotorTop.configure(shooterTopConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
-
-    /*
-      TODO: Set the top shooter motor to the base configuration
-    */
+    shooterMotorBottom.configure(shooterTopConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
   }
 
   public void runShooter() {
-    /**
-     * TODO: Run the shooter motors with the percentages from Constants
-     */
+    shooterMotorBottom.set(Constants.Shooter.shooterPercent);
+    shooterMotorTop.set(Constants.Shooter.shooterPercent);
   }
 
   public void stopMotors() {
-    /**
-     * TODO: Stop all motors in the shooter
-     */
+    shooterMotorBottom.stopMotor();;
+    shooterMotorTop.stopMotor();
   }
 
   @Override
