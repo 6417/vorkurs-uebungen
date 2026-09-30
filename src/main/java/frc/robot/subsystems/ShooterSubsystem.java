@@ -27,6 +27,7 @@ public class ShooterSubsystem extends SubsystemBase {
          */
 
         shooterMotorLeft = new SparkMax(Constants.Shooter.shooterLeftMotorId, SparkLowLevel.MotorType.kBrushless);
+        feederMotor = new SparkMax(Constants.Shooter.feederMotorId, SparkLowLevel.MotorType.kBrushless);
 
         SparkMaxConfig feederConfig = new SparkMaxConfig();
         feederConfig.apply(SparkMaxConfig.Presets.REV_NEO);
@@ -46,17 +47,11 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void runFeeder(double speed) {
-      /*
-       * TODO:
-       * - Run Feeder
-       */
+      feederMotor.set(speed);
     }
 
     public void stopFeeder() {
-      /*
-       * TODO:
-       * - Stop Motor
-       */
+      feederMotor.stopMotor();
     }
 
     @Override
