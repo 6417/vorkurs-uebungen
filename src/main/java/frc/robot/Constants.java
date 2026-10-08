@@ -18,7 +18,7 @@ public final class Constants {
   }
 
   public static class Intake {
-    public static final int id = 10;
+    public static final int id = ;
 
     public static final double intakeSpeed = -0.4;
     public static final double outspittSpeed = 0.6; 
