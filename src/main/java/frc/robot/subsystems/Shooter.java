@@ -2,25 +2,38 @@ package frc.robot.subsystems;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase{
-    private SparkMax shooter;
-    private SparkMax angle;
-    private SparkMax feeder;
+    private SparkMax shooterMotor;
+    private SparkMax angleMotor;
+    private SparkMax feederMotor;
 
     public Shooter() {
-        shooter = new SparkMax(Constants.Shooter.ShooterMotor.ID, Constants.Shooter.ShooterMotor.MOTOR_TYPE);
-        shooter.configure(Constants.Shooter.ShooterMotor.CONFIG, Constants.Shooter.ShooterMotor.RESET_MODE, Constants.Shooter.ShooterMotor.PERSIST_MODE);
+        shooterMotor = new SparkMax(Constants.Shooter.ShooterMotor.id, MotorType.kBrushless);
+
+        SparkMaxConfig shooterConfig = new SparkMaxConfig();
+        shooterConfig.apply(SparkMaxConfig.Presets.REV_NEO);
+        shooterMotor.configure(shooterConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     
-        angle = new SparkMax(Constants.Shooter.AngleMotor.ID, Constants.Shooter.AngleMotor.MOTOR_TYPE);
-        angle.configure(Constants.Shooter.AngleMotor.CONFIG, Constants.Shooter.AngleMotor.RESET_MODE, Constants.Shooter.AngleMotor.PERSIST_MODE);
-        
-        feeder = new SparkMax(Constants.Shooter.FeederMotor.ID, Constants.Shooter.FeederMotor.MOTOR_TYPE);
-        feeder.configure(Constants.Shooter.FeederMotor.CONFIG, Constants.Shooter.FeederMotor.RESET_MODE, Constants.Shooter.FeederMotor.PERSIST_MODE);
+        angleMotor = new SparkMax(Constants.Shooter.AngleMotor.id, MotorType.kBrushless);
+
+        SparkMaxConfig angleConfig = new SparkMaxConfig();
+        angleConfig.apply(SparkMaxConfig.Presets.REV_NEO);
+        angleMotor.configure(angleConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+    
+        feederMotor = new SparkMax(Constants.Shooter.ShooterMotor.id, MotorType.kBrushless);
+
+        SparkMaxConfig feederConfig = new SparkMaxConfig();
+        feederConfig.apply(SparkMaxConfig.Presets.REV_NEO);
+        feederMotor.configure(feederConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public void setShootAngle(double pos) {
@@ -28,26 +41,30 @@ public class Shooter extends SubsystemBase{
     }
 
     public void setAngleVelocity(double velo) {
-        angle.set(velo);
+        angleMotor.set(velo);
     }
 
     public void stopAngle() {
-        angle.stopMotor();
+        angleMotor.stopMotor();
     }
 
     public void setShootSpeed(double speed) {
-        shooter.set(speed);
-        feeder.set(Constants.Shooter.FEEDER_SPEED);
+        shooterMotor.set(speed);
+        feederMotor.set(Constants.Shooter.FeederMotor.speed);
     }
 
     public void stopShooter() {
-        shooter.stopMotor();
-        feeder.stopMotor();
+        shooterMotor.stopMotor();
+        feederMotor.stopMotor();
     }
 
     @Override
     public void periodic() {
-        Logger.recordOutput("Shooter Speed", shooter.getEncoder().getVelocity());
-        Logger.recordOutput("Shooting angle", shooter.getEncoder().getPosition());
+        /*
+         * TODO:
+         * Log the Angle Position
+         */
+        Logger.recordOutput("Shooter Speed", shooterMotor.getEncoder().getVelocity());
+        Logger.recordOutput("Shooting angle", shooterMotor.getEncoder().getPosition());
     }
 }

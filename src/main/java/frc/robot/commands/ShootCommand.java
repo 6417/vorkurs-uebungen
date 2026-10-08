@@ -14,7 +14,7 @@ public class ShootCommand extends Command{
 
     @Override
     public void execute() {
-        RobotContainer.shooter.setShootSpeed(Constants.Shooter.SHOOT_SPEED);
+        RobotContainer.shooter.setShootSpeed(Constants.Shooter.ShooterMotor.speed);
     }
 
     @Override

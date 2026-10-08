@@ -18,7 +18,7 @@ public class AngleSetterCommand extends Command {
 
     @Override
     public void execute() {
-        RobotContainer.shooter.setAngleVelocity(Constants.Shooter.ANGLE_SPEED * directory);
+        RobotContainer.shooter.setAngleVelocity(Constants.Shooter.AngleMotor.speed * directory);
     }
 
     @Override

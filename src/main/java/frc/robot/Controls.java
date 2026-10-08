@@ -11,7 +11,7 @@ import frc.robot.commands.ShootCommand;
 
 public class Controls implements Sendable{
     public CommandXboxController operatorJoystick = new CommandXboxController(
-                        Constants.Joystick.ID);
+                        Constants.Joystick.id);
 
     Trigger ltButtonOperator = operatorJoystick.leftTrigger();
     Trigger rtButtonOperator = operatorJoystick.rightTrigger();
