@@ -4,12 +4,6 @@
 
 package frc.robot;
 
-import com.revrobotics.PersistMode;
-import com.revrobotics.ResetMode;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkBaseConfig;
-import com.revrobotics.spark.config.SparkMaxConfig;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -24,17 +18,31 @@ public final class Constants {
   }
 
   public static class Intake {
-    /*
-     * TODO:
-     * - Set Motor ID
-     */
-    public static final int id = ;
+    public static final int id = 10;
 
     public static final double intakeSpeed = -0.4;
     public static final double outspittSpeed = 0.6; 
   }
 
+  public static final class Shooter {
+    public static final class ShooterMotor {
+      public static final int id = 22;
+      public static final double speed = 0.5;
+    }
+
+    public static final class AngleMotor {
+      public static final int id = 23;
+      public static final double speed = 0.8;
+    }
+
+    public static final class FeederMotor {
+      public static final int id = 20;
+      public static final double speed = 0.4;
+    }
+
+  }
+
   public static final class Joystick {
-    public static final int ID = 0;
+    public static final int id = 0;
   }
 }
