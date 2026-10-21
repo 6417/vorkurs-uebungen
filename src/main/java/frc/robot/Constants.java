@@ -26,6 +26,6 @@ public final class Constants {
     public static final int shooterLeftMotorId = 20;
 
     public static final double feederMotorSpeed = 0.2;
-    public static final double shootSpeed = 0.6;
+    public static final double shootSpeed = 1;
   }
 }

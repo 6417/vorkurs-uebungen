@@ -24,13 +24,11 @@ public class ShootCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.shooterSubsystem.runFeeder(Constants.Shooter.feederMotorSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.shooterSubsystem.stopFeeder();
     RobotContainer.shooterSubsystem.stopShooting();
   }
 

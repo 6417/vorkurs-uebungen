@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.FeederCommand;
 import frc.robot.commands.ShootCommand;
 
 public class Controls {
@@ -13,5 +14,6 @@ public class Controls {
 
         // Bind buttons to joysticks
         driveController.leftTrigger().whileTrue(new ShootCommand());
+        driveController.rightTrigger().whileTrue(new FeederCommand());
     }
 }
