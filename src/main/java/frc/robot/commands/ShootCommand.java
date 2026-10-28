@@ -12,13 +12,13 @@ import frc.robot.RobotContainer;
 public class ShootCommand extends Command {
 
   public ShootCommand() {
-    addRequirements(RobotContainer.shooterSubsystem);
+    //addRequirements(RobotContainer.shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.shooterSubsystem.shoot(Constants.Shooter.shootSpeed);
+    RobotContainer.shooterSubsystem.shoot(Constants.Shooter.shootLeftSpeed, Constants.Shooter.shootRightSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

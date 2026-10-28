@@ -12,7 +12,7 @@ import frc.robot.RobotContainer;
 public class FeederCommand extends Command {
 
   public FeederCommand() {
-    addRequirements(RobotContainer.shooterSubsystem);
+    //addRequirements(RobotContainer.shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.

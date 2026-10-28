@@ -17,6 +17,7 @@ import frc.robot.Constants;
 public class ShooterSubsystem extends SubsystemBase {
 
     private SparkMax shooterMotorLeft;
+    private SparkMax shooterMotorRight;
     private SparkMax feederMotor;
 
     public ShooterSubsystem() {
@@ -27,23 +28,35 @@ public class ShooterSubsystem extends SubsystemBase {
          */
 
         shooterMotorLeft = new SparkMax(Constants.Shooter.shooterLeftMotorId, SparkLowLevel.MotorType.kBrushless);
+        shooterMotorRight = new SparkMax(Constants.Shooter.shooterRightMotorId, SparkLowLevel.MotorType.kBrushless);
         feederMotor = new SparkMax(Constants.Shooter.feederMotorId, SparkLowLevel.MotorType.kBrushless);
 
         SparkMaxConfig feederConfig = new SparkMaxConfig();
         feederConfig.apply(SparkMaxConfig.Presets.REV_NEO);
         feederMotor.configure(feederConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
+        
         SparkMaxConfig shooterLeftConfig = new SparkMaxConfig();
         shooterLeftConfig.apply(SparkMaxConfig.Presets.REV_NEO);
+        shooterLeftConfig.inverted(true);
         shooterMotorLeft.configure(shooterLeftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
-    }
 
-    public void shoot(double speed) {
-      shooterMotorLeft.set(speed);
+        SparkMaxConfig shooterRightConfig = new SparkMaxConfig();
+        shooterRightConfig.apply(SparkMaxConfig.Presets.REV_NEO);
+        shooterRightConfig.inverted(false);
+        shooterMotorRight.configure(shooterRightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+    }
+    
+
+    public void shoot(double speedLeft, double speedRight) {
+      shooterMotorLeft.set(speedLeft);
+      shooterMotorRight.set(speedRight);
     }
 
     public void stopShooting() {
       shooterMotorLeft.stopMotor();
+      shooterMotorRight.stopMotor();
+
     }
 
     public void runFeeder(double speed) {
@@ -58,6 +71,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         Logger.recordOutput("Shooter/MotorLeftRPM", shooterMotorLeft.getEncoder().getVelocity());
+        Logger.recordOutput("Shooter/MotorRightRPM", shooterMotorRight.getEncoder().getVelocity());
         Logger.recordOutput("Shooter/MotorFeederRPM", feederMotor.getEncoder().getVelocity());
     }
 }

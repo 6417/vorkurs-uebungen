@@ -22,10 +22,18 @@ public final class Constants {
      * TODO:
      * - Set feeder ID
      */
-    public static final int feederMotorId = 20;
-    public static final int shooterLeftMotorId = 22;
+    public static final int feederMotorId = 22;
+    public static final int shooterLeftMotorId = 20;
+    public static final int shooterRightMotorId = 21;
 
-    public static final double feederMotorSpeed = 0.2;
-    public static final double shootSpeed =1.0;
+    public static final double feederMotorSpeed = 0.5;
+    public static final double shootLeftSpeed =1.0;
+    public static final double shootRightSpeed =1.0;
+
+    public static final double intakefeederMotorSpeed = -0.2;
+    public static final double intakeLeftSpeed =-0.5;
+    public static final double intakeRightSpeed =-0.5;
+
+
   }
 }
