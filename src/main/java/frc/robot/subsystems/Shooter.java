@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase{
         angleConfig.apply(SparkMaxConfig.Presets.REV_NEO);
         angleMotor.configure(angleConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     
-        feederMotor = new SparkMax(Constants.Shooter.ShooterMotor.id, MotorType.kBrushless);
+        feederMotor = new SparkMax(Constants.Shooter.FeederMotor.id, MotorType.kBrushless);
 
         SparkMaxConfig feederConfig = new SparkMaxConfig();
         feederConfig.apply(SparkMaxConfig.Presets.REV_NEO);
@@ -50,11 +50,17 @@ public class Shooter extends SubsystemBase{
 
     public void setShootSpeed(double speed) {
         shooterMotor.set(speed);
-        feederMotor.set(Constants.Shooter.FeederMotor.speed);
+    }
+    
+    public void setFeederSpeed(double speed) {
+        feederMotor.set(speed);
     }
 
     public void stopShooter() {
         shooterMotor.stopMotor();
+    }
+    
+    public void stopFeeder() {
         feederMotor.stopMotor();
     }
 
@@ -65,6 +71,9 @@ public class Shooter extends SubsystemBase{
          * Log the Angle Position
          */
         Logger.recordOutput("Shooter Speed", shooterMotor.getEncoder().getVelocity());
-        Logger.recordOutput("Shooting angle", shooterMotor.getEncoder().getPosition());
+        Logger.recordOutput("Shooting ampere", shooterMotor.getOutputCurrent());
+        Logger.recordOutput("Shooting angle", angleMotor.getEncoder().getPosition());
+        Logger.recordOutput("Feeder Speed", feederMotor.getEncoder().getVelocity());
+        Logger.recordOutput("Feeder ampere", feederMotor.getOutputCurrent());
     }
 }

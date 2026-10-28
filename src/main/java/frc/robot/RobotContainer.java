@@ -21,7 +21,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  public static final Intake intake = new Intake();
   public static final Shooter shooter = new Shooter();
 
   public static final Controls controls = new Controls();

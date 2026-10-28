@@ -6,7 +6,6 @@ import frc.robot.RobotContainer;
 
 public class ShootCommand extends Command{
     public ShootCommand() {
-        addRequirements(RobotContainer.shooter);
     }
 
     @Override

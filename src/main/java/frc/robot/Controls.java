@@ -2,10 +2,11 @@ package frc.robot;
 
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.OutspittCommand;
+import frc.robot.commands.FeederCommand;
+import frc.robot.commands.ShootCommand;
 
 public class Controls implements Sendable{
     public CommandXboxController operatorJoystick = new CommandXboxController(
@@ -30,8 +31,11 @@ public class Controls implements Sendable{
     Trigger leftStickOperator = operatorJoystick.leftStick();
 
     public Controls() {
-        ltButtonOperator.whileTrue(new IntakeCommand());
-        lbButtonOperator.whileTrue(new OutspittCommand());
+        ltButtonOperator.whileTrue(
+            new ShootCommand().alongWith(
+                new WaitCommand(1).andThen(new FeederCommand())
+            )
+        );
     }
 
     public void initSendable(SendableBuilder builder) {
