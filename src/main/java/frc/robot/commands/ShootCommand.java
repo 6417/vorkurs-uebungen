@@ -19,6 +19,8 @@ public class ShootCommand extends Command {
   @Override
   public void initialize() {
     RobotContainer.shooterSubsystem.shoot(Constants.Shooter.shootLeftSpeed, Constants.Shooter.shootRightSpeed);
+    RobotContainer.shooterSubsystem.runFeeder(Constants.Shooter.feederMotorSpeed);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -30,6 +32,8 @@ public class ShootCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.shooterSubsystem.stopShooting();
+    RobotContainer.shooterSubsystem.stopFeeder();
+
   }
 
   // Returns true when the command should end.
