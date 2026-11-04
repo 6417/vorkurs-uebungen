@@ -18,7 +18,7 @@ public class IntakeCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.shooterSubsystem.shoot(Constants.Shooter.intakeLeftSpeed, Constants.Shooter.intakeRightSpeed);
+    RobotContainer.shooterSubsystem.shoot(Constants.Shooter.intakeLeftSpeed);
     RobotContainer.shooterSubsystem.runFeeder(Constants.Shooter.intakefeederMotorSpeed);
 
   }
