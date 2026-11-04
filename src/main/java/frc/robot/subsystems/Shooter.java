@@ -33,6 +33,8 @@ public class Shooter extends SubsystemBase{
 
         SparkMaxConfig feederConfig = new SparkMaxConfig();
         feederConfig.apply(SparkMaxConfig.Presets.REV_NEO);
+
+        feederConfig.smartCurrentLimit(40, 30);
         feederMotor.configure(feederConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     }
 
