@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.lang.instrument.Instrumentation;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -20,7 +22,7 @@ public class AngleSetterCommand extends Command {
     public void execute() {
         RobotContainer.shooter.setAngleVelocity(Constants.Shooter.AngleMotor.speed * directory);
     }
-
+ 
     @Override
     public void end(boolean interrupted) {
         RobotContainer.shooter.stopAngle();
@@ -28,6 +30,6 @@ public class AngleSetterCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+       return !RobotContainer.shooter.getLimitSwitch();
     }
 }

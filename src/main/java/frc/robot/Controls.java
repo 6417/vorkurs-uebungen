@@ -5,7 +5,9 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AngleSetterCommand;
 import frc.robot.commands.FeederCommand;
+import frc.robot.commands.MoveAngleCommand;
 import frc.robot.commands.ShootCommand;
 
 public class Controls implements Sendable{
@@ -36,6 +38,14 @@ public class Controls implements Sendable{
                 new WaitCommand(1).andThen(new FeederCommand())
             )
         );
+        bButtonOperator.whileTrue(
+            new AngleSetterCommand(-1)
+        
+        );
+        xButtonOperator.whileTrue(
+            new MoveAngleCommand(1)
+            );
+
     }
 
     public void initSendable(SendableBuilder builder) {

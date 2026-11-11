@@ -31,7 +31,7 @@ public final class Constants {
     }
 
     public static final class AngleMotor {
-      public static final int id = 23;
+      public static final int id = 32;
       public static final double speed = 0.8;
     }
 

@@ -8,6 +8,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -46,6 +47,11 @@ public class Shooter extends SubsystemBase{
         angleMotor.set(velo);
     }
 
+    public boolean getLimitSwitch() {
+        return angleMotor.getForwardLimitSwitch().isPressed();
+    }
+
+
     public void stopAngle() {
         angleMotor.stopMotor();
     }
@@ -77,5 +83,6 @@ public class Shooter extends SubsystemBase{
         Logger.recordOutput("Shooting angle", angleMotor.getEncoder().getPosition());
         Logger.recordOutput("Feeder Speed", feederMotor.getEncoder().getVelocity());
         Logger.recordOutput("Feeder ampere", feederMotor.getOutputCurrent());
+        Logger.recordOutput("limitSwitch", getLimitSwitch());
     }
 }
