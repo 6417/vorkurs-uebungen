@@ -30,10 +30,19 @@ public final class Constants {
     public static final double shootLeftSpeed =1.0;
     public static final double shootRightSpeed =1.0;
 
-    public static final double intakefeederMotorSpeed = -0.2;
+    public static final double intakefeederMotorSpeed = -0.1;
     public static final double intakeLeftSpeed =-0.5;
     public static final double intakeRightSpeed =-0.5;
 
+    public static final double currentLoaded = 30;
+
+
+  }
+
+  public static final class Climber {
+    
+    public static final int releaseMotorId = 1;
+    public static final int ratchetMotorId = 30;
 
   }
 }

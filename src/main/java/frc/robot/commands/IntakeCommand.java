@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import org.littletonrobotics.junction.Logger;
 
 /** An example command that uses an example subsystem. */
 public class IntakeCommand extends Command {
@@ -26,6 +27,8 @@ public class IntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //RobotContainer.shooterSubsystem.shoot(Constants.Shooter.intakeLeftSpeed, Constants.Shooter.intakeRightSpeed);
+    //RobotContainer.shooterSubsystem.runFeeder(Constants.Shooter.intakefeederMotorSpeed);
   }
 
   // Called once the command ends or is interrupted.
@@ -33,12 +36,18 @@ public class IntakeCommand extends Command {
   public void end(boolean interrupted) {
     RobotContainer.shooterSubsystem.stopShooting();
     RobotContainer.shooterSubsystem.stopFeeder();
-
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    boolean isLoaded = RobotContainer.shooterSubsystem.getCurrentOutput() > Constants.Shooter.currentLoaded;
+    Logger.recordOutput("Shooter/IsLoaded", isLoaded);
+    if (isLoaded) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 }

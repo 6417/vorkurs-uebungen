@@ -11,6 +11,7 @@ import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -67,10 +68,15 @@ public class ShooterSubsystem extends SubsystemBase {
       feederMotor.stopMotor();
     }
 
+    public double getCurrentOutput() {
+      return feederMotor.getOutputCurrent();
+    }
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
         Logger.recordOutput("Shooter/MotorLeftRPM", shooterMotorLeft.getEncoder().getVelocity());
+        Logger.recordOutput("Shooter/Current", this.getCurrentOutput());
         Logger.recordOutput("Shooter/MotorRightRPM", shooterMotorRight.getEncoder().getVelocity());
         Logger.recordOutput("Shooter/MotorFeederRPM", feederMotor.getEncoder().getVelocity());
     }
