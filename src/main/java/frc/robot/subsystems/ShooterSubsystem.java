@@ -34,24 +34,28 @@ public class ShooterSubsystem extends SubsystemBase {
 
         SparkMaxConfig feederConfig = new SparkMaxConfig();
         feederConfig.apply(SparkMaxConfig.Presets.REV_NEO);
+        feederConfig.smartCurrentLimit(5,5);
         feederMotor.configure(feederConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+
 
         
         SparkMaxConfig shooterLeftConfig = new SparkMaxConfig();
         shooterLeftConfig.apply(SparkMaxConfig.Presets.REV_NEO);
+        shooterLeftConfig.smartCurrentLimit(15,20);
         shooterLeftConfig.inverted(true);
         shooterMotorLeft.configure(shooterLeftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
         SparkMaxConfig shooterRightConfig = new SparkMaxConfig();
         shooterRightConfig.apply(SparkMaxConfig.Presets.REV_NEO);
+        shooterRightConfig.smartCurrentLimit(15,20);
         shooterRightConfig.inverted(false);
+        shooterRightConfig.follow(shooterMotorLeft, true);
         shooterMotorRight.configure(shooterRightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     }
     
 
-    public void shoot(double speedLeft, double speedRight) {
+    public void shoot(double speedLeft) {
       shooterMotorLeft.set(speedLeft);
-      shooterMotorRight.set(speedRight);
     }
 
     public void stopShooting() {
@@ -79,5 +83,12 @@ public class ShooterSubsystem extends SubsystemBase {
         Logger.recordOutput("Shooter/Current", this.getCurrentOutput());
         Logger.recordOutput("Shooter/MotorRightRPM", shooterMotorRight.getEncoder().getVelocity());
         Logger.recordOutput("Shooter/MotorFeederRPM", feederMotor.getEncoder().getVelocity());
+
+        Logger.recordOutput("Shooter/MotorLeftCurrent", shooterMotorLeft.getOutputCurrent());
+        Logger.recordOutput("Shooter/MotorRightCurrent", shooterMotorRight.getOutputCurrent());
+        Logger.recordOutput("Shooter/MotorFeederCurrent", feederMotor.getOutputCurrent());
+        Logger.recordOutput("Shooter/MotorFeederAppliedOutput", feederMotor.getAppliedOutput());
+        
+
     }
 }

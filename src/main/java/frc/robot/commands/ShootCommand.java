@@ -18,7 +18,7 @@ public class ShootCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.shooterSubsystem.shoot(Constants.Shooter.shootLeftSpeed, Constants.Shooter.shootRightSpeed);
+    RobotContainer.shooterSubsystem.shoot(Constants.Shooter.shootLeftSpeed);
     RobotContainer.shooterSubsystem.runFeeder(Constants.Shooter.feederMotorSpeed);
 
   }
