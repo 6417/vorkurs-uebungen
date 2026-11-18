@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.FeederCommand;
 import frc.robot.commands.FeederIntakeCommand;
 import frc.robot.commands.ShootCommand;
+import frc.robot.commands.SpeedCommand;
 import frc.robot.commands.IntakeCommand;
 
 public class Controls {
@@ -15,7 +16,7 @@ public class Controls {
         driveController = new CommandXboxController(Constants.Joystick.kDriverControllerPort);
 
         // Bind buttons to joysticks
-        driveController.leftTrigger().whileTrue(new ShootCommand());
+        driveController.leftTrigger().whileTrue(new SpeedCommand());
         driveController.rightTrigger().whileTrue(new FeederCommand());
         driveController.leftBumper().whileTrue(new IntakeCommand());
         driveController.rightBumper().whileTrue(new FeederIntakeCommand());

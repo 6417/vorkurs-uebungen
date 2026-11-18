@@ -36,6 +36,7 @@ public final class Constants {
 
     public static final double currentLoaded = 30;
 
+    public static final double ShootSpeedRPM = 3000;
 
   }
 
