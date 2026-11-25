@@ -9,11 +9,15 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.Shooter;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -43,19 +47,31 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterLeftConfig.apply(SparkMaxConfig.Presets.REV_NEO);
         shooterLeftConfig.smartCurrentLimit(15,20);
         shooterLeftConfig.inverted(true);
+        shooterLeftConfig.closedLoop.pid(
+          Constants.Shooter.velocityPidShooter.kP, Constants.Shooter.velocityPidShooter.kI, Constants.Shooter.velocityPidShooter.kD
+        );
+        shooterLeftConfig.closedLoop.feedForward.kS(Constants.Shooter.velocityffShooter.kS);
+        shooterLeftConfig.closedLoop.feedForward.kV(Constants.Shooter.velocityffShooter.kV);
         shooterMotorLeft.configure(shooterLeftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
         SparkMaxConfig shooterRightConfig = new SparkMaxConfig();
         shooterRightConfig.apply(SparkMaxConfig.Presets.REV_NEO);
         shooterRightConfig.smartCurrentLimit(15,20);
         shooterRightConfig.inverted(false);
+         shooterRightConfig.closedLoop.pid(
+          Constants.Shooter.velocityPidShooter.kP, Constants.Shooter.velocityPidShooter.kI, Constants.Shooter.velocityPidShooter.kD
+        );
+        shooterRightConfig.closedLoop.feedForward.kS(Constants.Shooter.velocityffShooter.kS);
+        shooterRightConfig.closedLoop.feedForward.kV(Constants.Shooter.velocityffShooter.kV);
         shooterRightConfig.follow(shooterMotorLeft, true);
         shooterMotorRight.configure(shooterRightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     }
     
 
     public void shoot(double speedLeft) {
-      shooterMotorLeft.set(speedLeft);
+      //shooterMotorLeft.set(speedLeft);
+      shooterMotorLeft.getClosedLoopController().setSetpoint(Constants.Shooter.ShootSpeedRPM, ControlType.kVelocity);
+      shooterMotorRight.getClosedLoopController().setSetpoint(Constants.Shooter.ShootSpeedRPM, ControlType.kVelocity);
     }
 
     public void stopShooting() {
@@ -65,7 +81,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void runFeeder(double speed) {
-      feederMotor.set(speed);
+      //feederMotor.set(speed);
+     
     }
 
     public void stopFeeder() {

@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import frc.fridowpi.motors.utils.FeedForwardValues;
+import frc.fridowpi.motors.utils.PidValues;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -37,6 +40,11 @@ public final class Constants {
     public static final double currentLoaded = 30;
 
     public static final double ShootSpeedRPM = 3000;
+
+
+
+    public static final PidValues velocityPidShooter = new PidValues(0.00067, 0,0);
+    public static final FeedForwardValues velocityffShooter = new FeedForwardValues(0.15, 0.002);
 
   }
 
